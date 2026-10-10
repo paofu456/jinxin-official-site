@@ -3,7 +3,7 @@ import type { CollectionEntry } from "astro:content";
 import type { Page, PaginateFunction } from "astro";
 import Container from "../../components/ui/Container.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { formatNewsDate, getPublishedNews } from "../../lib/news";
+import { formatNewsDate, getNewsHref, getPublishedNews } from "../../lib/news";
 import { makePageTitle } from "../../lib/seo";
 
 type NewsItem = CollectionEntry<"news">;
@@ -55,7 +55,10 @@ const currentCategory = categories[0];
       <Container>
         <div class="grid gap-7 md:grid-cols-2 lg:grid-cols-3">
           {featured.map((item) => (
-            <article class="group overflow-hidden rounded-[var(--radius-card)] border border-[var(--color-line)] bg-white transition duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-card)]">
+            <a
+              href={getNewsHref(item.data.slug)}
+              class="group block overflow-hidden rounded-[var(--radius-card)] border border-[var(--color-line)] bg-white transition duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-card)]"
+            >
               {item.data.image && (
                 <div class="overflow-hidden bg-[#e7edf2]">
                   <img src={item.data.image.src} alt={item.data.image.alt} width="1400" height="820" loading="lazy" class="aspect-[16/9] h-auto w-full object-cover transition duration-500 group-hover:scale-[1.03]" />
@@ -63,10 +66,11 @@ const currentCategory = categories[0];
               )}
               <div class="p-7">
                 <p class="text-xs font-extrabold tracking-[0.08em] text-[var(--color-primary)]">{formatNewsDate(item.data.date)}</p>
-                <h2 class="mt-3 text-xl font-extrabold leading-8">{item.data.title}</h2>
+                <h2 class="mt-3 text-xl font-extrabold leading-8 transition group-hover:text-[var(--color-primary)]">{item.data.title}</h2>
                 {item.data.summary && <p class="mt-3 text-sm leading-7 text-[var(--color-muted)]">{item.data.summary}</p>}
+                <span class="mt-5 inline-flex items-center gap-1 text-sm font-bold text-[var(--color-primary)]">查看详情 <span aria-hidden="true">→</span></span>
               </div>
-            </article>
+            </a>
           ))}
         </div>
       </Container>
@@ -82,10 +86,13 @@ const currentCategory = categories[0];
       <ul>
         {page.data.map((item) => (
           <li class="border-b border-[var(--color-line)]">
-            <div class="flex flex-col gap-2 py-6 sm:flex-row sm:items-center sm:justify-between sm:gap-10">
-              <p class="text-base font-bold leading-7 sm:order-2 sm:max-w-3xl sm:flex-1">{item.data.title}</p>
+            <a
+              href={getNewsHref(item.data.slug)}
+              class="group flex flex-col gap-2 py-6 sm:flex-row sm:items-center sm:justify-between sm:gap-10"
+            >
+              <p class="text-base font-bold leading-7 underline decoration-transparent decoration-2 underline-offset-4 transition group-hover:text-[var(--color-primary)] group-hover:decoration-current sm:order-2 sm:max-w-3xl sm:flex-1">{item.data.title}</p>
               <time datetime={item.data.date} class="shrink-0 text-sm text-[var(--color-muted)] sm:order-1">{formatNewsDate(item.data.date)}</time>
-            </div>
+            </a>
           </li>
         ))}
       </ul>

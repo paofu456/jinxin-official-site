@@ -1,0 +1,116 @@
+---
+import { render, type CollectionEntry } from "astro:content";
+import ContactCta from "../../components/sections/ContactCta.astro";
+import Container from "../../components/ui/Container.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { formatNewsDate, getNewsHref, getPublishedNews, splitNewsTitle } from "../../lib/news";
+import { makePageTitle } from "../../lib/seo";
+
+type NewsItem = CollectionEntry<"news">;
+
+export async function getStaticPaths() {
+  const news = await getPublishedNews();
+  return news.map((item, index) => ({
+    params: { slug: item.data.slug },
+    props: {
+      item,
+      related: news.filter((_, entryIndex) => entryIndex !== index).slice(0, 3),
+    },
+  }));
+}
+
+interface Props {
+  item: NewsItem;
+  related: NewsItem[];
+}
+
+const { item, related } = Astro.props;
+const { Content } = await render(item);
+const { tag, display } = splitNewsTitle(item.data.title);
+const label = tag || item.data.category;
+const hasBody = (item.body ?? "").trim().length > 0;
+---
+
+<BaseLayout
+  title={makePageTitle(display)}
+  description={item.data.summary || `${display}——深圳金鑫绿建股份有限公司新闻中心发布的企业动态。`}
+  image={item.data.image?.src}
+>
+  <section class="border-b border-[var(--color-line)] bg-white py-16 sm:py-20">
+    <Container>
+      <nav aria-label="当前位置" class="text-sm text-[var(--color-muted)]">
+        <a href="/" class="hover:text-[var(--color-primary)]">首页</a>
+        <span class="mx-2" aria-hidden="true">-</span>
+        <a href="/news/" class="hover:text-[var(--color-primary)]">新闻中心</a>
+        <span class="mx-2" aria-hidden="true">-</span>
+        <span class="text-[var(--color-ink)]">{label}</span>
+      </nav>
+
+      <div class="mt-10 max-w-4xl">
+        <span class="inline-flex rounded-full bg-[var(--color-primary)] px-5 py-2 text-sm font-bold text-white">{label}</span>
+        <h1 class="mt-6 text-4xl font-extrabold leading-[1.15] sm:text-5xl">{display}</h1>
+        <p class="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-[var(--color-muted)]">
+          <time datetime={item.data.date}>发布时间：{formatNewsDate(item.data.date)}</time>
+          <span>栏目：{item.data.category}</span>
+        </p>
+      </div>
+    </Container>
+  </section>
+
+  <section class="py-20 sm:py-28">
+    <Container class="max-w-4xl">
+      <article class="prose-site">
+        {item.data.summary && <p class="text-xl leading-9 text-[var(--color-ink)]">{item.data.summary}</p>}
+        {hasBody && <Content />}
+        {!hasBody && (
+          <div class="rounded-[var(--radius-card)] border border-[var(--color-line)] bg-[var(--color-surface)] p-7">
+            <p class="text-sm font-extrabold tracking-[0.08em] text-[var(--color-primary)]">正文说明</p>
+            <p class="mt-3 text-base leading-8 text-[var(--color-muted)]">
+              本条动态对外公开的信息为标题与发布时间，公司尚未提供正文稿件。为避免展示未经确认的内容，本条正文暂不展开。如需本条动态的完整新闻稿、项目资料或相关资质文件，欢迎通过「联系我们」与我们沟通。
+            </p>
+          </div>
+        )}
+      </article>
+
+      {item.data.image && (
+        <figure class="mt-12">
+          <img
+            src={item.data.image.src}
+            alt={item.data.image.alt}
+            width="1400"
+            height="820"
+            loading="lazy"
+            class="aspect-[16/9] h-auto w-full rounded-[var(--radius-card)] border border-[var(--color-line)] object-cover"
+          />
+          <figcaption class="mt-3 text-xs leading-6 text-[var(--color-muted)]">{item.data.image.alt}</figcaption>
+        </figure>
+      )}
+
+      <div class="mt-14 border-t border-[var(--color-line)] pt-8">
+        <a href="/news/" class="inline-flex items-center gap-2 text-sm font-bold text-[var(--color-primary)]">← 返回新闻中心</a>
+      </div>
+    </Container>
+  </section>
+
+  {related.length > 0 && (
+    <section class="pb-20 sm:pb-24">
+      <Container>
+        <h2 class="border-b border-[var(--color-line)] pb-5 text-2xl font-extrabold">相关阅读</h2>
+        <ul class="grid gap-x-10 lg:grid-cols-2">
+          {related.map((entry) => (
+            <li class="border-b border-[var(--color-line)]">
+              <a href={getNewsHref(entry.data.slug)} class="group flex items-baseline justify-between gap-6 py-6">
+                <p class="text-base font-bold leading-7 group-hover:text-[var(--color-primary)]">
+                  <span class="mr-3 inline-block h-1.5 w-1.5 rounded-full bg-[var(--color-primary)] align-middle" aria-hidden="true"></span>{entry.data.title}
+                </p>
+                <time datetime={entry.data.date} class="shrink-0 text-sm text-[var(--color-muted)]">{formatNewsDate(entry.data.date)}</time>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </Container>
+    </section>
+  )}
+
+  <ContactCta />
+</BaseLayout>
