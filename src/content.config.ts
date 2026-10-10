@@ -52,4 +52,23 @@ const projects = defineCollection({
   }),
 });
 
-export const collections = { products, projects };
+const news = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/news" }),
+  schema: z.object({
+    slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+    title: z.string().min(1),
+    date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+    category: z.string().min(1),
+    summary: z.string().default(""),
+    image: z
+      .object({
+        src: z.string().startsWith("/"),
+        alt: z.string().min(1),
+      })
+      .optional(),
+    featured: z.boolean().default(false),
+    order: z.number().int().nonnegative().default(0),
+  }),
+});
+
+export const collections = { products, projects, news };

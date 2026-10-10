@@ -1,0 +1,121 @@
+---
+import type { CollectionEntry } from "astro:content";
+import type { Page, PaginateFunction } from "astro";
+import Container from "../../components/ui/Container.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { formatNewsDate, getPublishedNews } from "../../lib/news";
+import { makePageTitle } from "../../lib/seo";
+
+type NewsItem = CollectionEntry<"news">;
+
+interface NewsPageProps {
+  featured: NewsItem[];
+  categories: string[];
+  total: number;
+}
+
+export async function getStaticPaths({ paginate }: { paginate: PaginateFunction }) {
+  const news = await getPublishedNews();
+  const featured = news.filter((item) => item.data.featured).slice(0, 3);
+  const featuredSlugs = new Set(featured.map((item) => item.data.slug));
+  const rest = news.filter((item) => !featuredSlugs.has(item.data.slug));
+  const categories = [...new Set(news.map((item) => item.data.category))];
+  return paginate(rest, { pageSize: 6, props: { featured, categories, total: news.length } });
+}
+
+const { page, featured, categories, total } = Astro.props as unknown as { page: Page<NewsItem> } & NewsPageProps;
+const currentCategory = categories[0];
+---
+
+<BaseLayout
+  title={makePageTitle("新闻中心")}
+  description="深圳金鑫绿建股份有限公司新闻中心，发布企业动态、工程履约与公司荣誉等最新信息。"
+>
+  <section class="border-b border-[var(--color-line)] bg-white py-16 sm:py-20">
+    <Container>
+      <nav aria-label="当前位置" class="text-sm text-[var(--color-muted)]">
+        <a href="/" class="hover:text-[var(--color-primary)]">首页</a>
+        <span class="mx-2" aria-hidden="true">-</span>
+        <span>新闻中心</span>
+        <span class="mx-2" aria-hidden="true">-</span>
+        <span class="text-[var(--color-ink)]">{currentCategory}</span>
+      </nav>
+      <h1 class="mt-8 max-w-4xl text-4xl font-extrabold leading-[1.12] sm:text-6xl">新闻中心</h1>
+      <p class="mt-6 max-w-3xl text-lg leading-9 text-[var(--color-muted)]">发布公司动态、工程节点与企业荣誉等公开信息，按时间从近到远排列。</p>
+      <div class="mt-10 flex flex-wrap gap-3">
+        {categories.map((category) => (
+          <span class="rounded-full bg-[var(--color-primary)] px-5 py-3 text-sm font-bold text-white">{category}</span>
+        ))}
+      </div>
+    </Container>
+  </section>
+
+  {page.url.prev === undefined && featured.length > 0 && (
+    <section class="py-20 sm:py-24">
+      <Container>
+        <div class="grid gap-7 md:grid-cols-2 lg:grid-cols-3">
+          {featured.map((item) => (
+            <article class="group overflow-hidden rounded-[var(--radius-card)] border border-[var(--color-line)] bg-white transition duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-card)]">
+              {item.data.image && (
+                <div class="overflow-hidden bg-[#e7edf2]">
+                  <img src={item.data.image.src} alt={item.data.image.alt} width="1400" height="820" loading="lazy" class="aspect-[16/9] h-auto w-full object-cover transition duration-500 group-hover:scale-[1.03]" />
+                </div>
+              )}
+              <div class="p-7">
+                <p class="text-xs font-extrabold tracking-[0.08em] text-[var(--color-primary)]">{formatNewsDate(item.data.date)}</p>
+                <h2 class="mt-3 text-xl font-extrabold leading-8">{item.data.title}</h2>
+                {item.data.summary && <p class="mt-3 text-sm leading-7 text-[var(--color-muted)]">{item.data.summary}</p>}
+              </div>
+            </article>
+          ))}
+        </div>
+      </Container>
+    </section>
+  )}
+
+  <section class="pb-24 sm:pb-32">
+    <Container>
+      <div class="flex items-baseline justify-between gap-6 border-b border-[var(--color-line)] pb-5">
+        <h2 class="text-2xl font-extrabold">{currentCategory}</h2>
+        <p class="text-sm text-[var(--color-muted)]">共 {total} 条</p>
+      </div>
+      <ul>
+        {page.data.map((item) => (
+          <li class="border-b border-[var(--color-line)]">
+            <div class="flex flex-col gap-2 py-6 sm:flex-row sm:items-center sm:justify-between sm:gap-10">
+              <p class="text-base font-bold leading-7 sm:order-2 sm:max-w-3xl sm:flex-1">{item.data.title}</p>
+              <time datetime={item.data.date} class="shrink-0 text-sm text-[var(--color-muted)] sm:order-1">{formatNewsDate(item.data.date)}</time>
+            </div>
+          </li>
+        ))}
+      </ul>
+
+      {page.lastPage > 1 && (
+        <nav aria-label="分页" class="mt-12 flex items-center justify-center gap-3">
+          {page.url.prev ? (
+            <a href={page.url.prev} class="rounded-full border border-[var(--color-line)] bg-white px-5 py-3 text-sm font-bold hover:border-[var(--color-primary)]">上一页</a>
+          ) : (
+            <span class="rounded-full border border-[var(--color-line)] bg-[var(--color-surface)] px-5 py-3 text-sm font-bold text-[var(--color-muted)]">上一页</span>
+          )}
+          {Array.from({ length: page.lastPage }, (_, index) => index + 1).map((number) => (
+            <a
+              href={number === 1 ? "/news/" : `/news/${number}/`}
+              aria-current={number === page.currentPage ? "page" : undefined}
+              class:list={[
+                "grid h-11 w-11 place-items-center rounded-full text-sm font-bold",
+                number === page.currentPage
+                  ? "bg-[var(--color-primary)] text-white"
+                  : "border border-[var(--color-line)] bg-white hover:border-[var(--color-primary)]",
+              ]}
+            >{number}</a>
+          ))}
+          {page.url.next ? (
+            <a href={page.url.next} class="rounded-full border border-[var(--color-line)] bg-white px-5 py-3 text-sm font-bold hover:border-[var(--color-primary)]">下一页</a>
+          ) : (
+            <span class="rounded-full border border-[var(--color-line)] bg-[var(--color-surface)] px-5 py-3 text-sm font-bold text-[var(--color-muted)]">下一页</span>
+          )}
+        </nav>
+      )}
+    </Container>
+  </section>
+</BaseLayout>
