@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.astro/
+.tmp/
+.wrangler/
+*.log
+.env
+.env.*
+!.env.example
+
+# Raw source materials are private by default.
+materials/*
+!materials/README.md
+
+# Private intake notes and decisions are not publishable site content.
+notes/

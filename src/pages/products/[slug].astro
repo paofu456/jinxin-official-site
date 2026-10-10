@@ -1,0 +1,54 @@
+---
+import { render, type CollectionEntry } from "astro:content";
+import ContactCta from "../../components/sections/ContactCta.astro";
+import ProductGallery from "../../components/product/ProductGallery.astro";
+import ProductSpecs from "../../components/product/ProductSpecs.astro";
+import Container from "../../components/ui/Container.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getPublishedProducts } from "../../lib/products";
+
+export async function getStaticPaths() {
+  const products = await getPublishedProducts();
+  return products.map((product) => ({
+    params: { slug: product.data.slug },
+    props: { product },
+  }));
+}
+
+interface Props {
+  product: CollectionEntry<"products">;
+}
+
+const { product } = Astro.props;
+const { Content } = await render(product);
+---
+
+<BaseLayout
+  title={product.data.seo.title}
+  description={product.data.seo.description}
+  image={product.data.images[0].src}
+>
+  <section class="border-b border-[var(--color-line)] bg-white py-16 sm:py-24">
+    <Container>
+      <a href="/products/" class="inline-flex items-center gap-2 text-sm font-bold text-[var(--color-primary)]">← 返回钢结构业务</a>
+      <div class="mt-10 grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
+        <ProductGallery images={product.data.images} />
+        <div>
+          <p class="eyebrow mb-4">业务方向</p>
+          <h1 class="text-5xl font-extrabold leading-[1.05] sm:text-6xl">{product.data.title}</h1>
+          <p class="mt-7 text-xl leading-9 text-[var(--color-muted)]">{product.data.summary}</p>
+          <a href="/contact/" class="mt-8 inline-flex min-h-12 items-center rounded-full bg-[var(--color-primary)] px-6 py-3 text-sm font-bold text-white hover:bg-[var(--color-primary-dark)]">咨询该业务</a>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <section class="py-24 sm:py-32">
+    <Container class="grid items-start gap-14 lg:grid-cols-[1fr_.85fr] lg:gap-20">
+      <article class="prose-site"><Content /></article>
+      <ProductSpecs specifications={product.data.specifications} />
+    </Container>
+  </section>
+
+  <ContactCta />
+</BaseLayout>

@@ -1,0 +1,8 @@
+{
+  "id": "nexus",
+  "name": "Nexus · 现代商务",
+  "version": "0.1.0",
+  "description": "A modern business website with clear capability blocks, balanced content density, and a credible corporate voice.",
+  "style": ["corporate", "balanced", "trust-led"],
+  "bestFor": ["B2B services", "enterprise groups", "general companies"]
+}

@@ -1,0 +1,26 @@
+---
+interface Specification {
+  label: string;
+  value: string;
+}
+
+interface Props {
+  specifications: Specification[];
+}
+
+const { specifications } = Astro.props;
+---
+
+{specifications.length > 0 && (
+  <div class="overflow-hidden rounded-[var(--radius-card)] border border-[var(--color-line)] bg-white">
+    <h2 class="border-b border-[var(--color-line)] px-6 py-5 text-xl font-extrabold">关键参数</h2>
+    <dl>
+      {specifications.map((specification, index) => (
+        <div class:list={["grid gap-1 px-6 py-4 sm:grid-cols-2", index > 0 && "border-t border-[var(--color-line)]"]}>
+          <dt class="text-sm font-bold text-[var(--color-ink)]">{specification.label}</dt>
+          <dd class="text-sm text-[var(--color-muted)]">{specification.value}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+)}

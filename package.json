@@ -1,0 +1,25 @@
+{
+  "name": "jinxin-official-site",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "verify:quick": "astro check",
+    "verify": "npm run build && node scripts/verify.mjs",
+    "verify:delivery": "npm run build && node scripts/verify.mjs --delivery",
+    "verify:handoff": "node scripts/verify-handoff.mjs"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "4.3.3",
+    "astro": "7.3.2",
+    "tailwindcss": "4.3.3"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "typescript": "6.0.3",
+    "wrangler": "4.149.0"
+  }
+}

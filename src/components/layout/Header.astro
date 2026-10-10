@@ -1,0 +1,83 @@
+---
+import company from "../../data/company.json";
+import { siteConfig } from "../../../site.config";
+import Container from "../ui/Container.astro";
+
+const path = Astro.url.pathname;
+const isActive = (href: string) => href === "/" ? path === "/" : path.startsWith(href);
+---
+
+<header class="sticky top-0 z-50 border-b border-[var(--color-line)] bg-[color:rgba(243,246,251,0.94)] backdrop-blur-xl">
+  <Container class="flex h-20 items-center justify-between gap-8">
+    <a href="/" aria-label={`${company.name} 首页`} class="flex shrink-0 items-center gap-3">
+      <img src={company.logo} alt={company.name} width="136" height="40" class="h-9 w-auto" />
+      <span class="text-base font-extrabold tracking-tight">{company.shortName}</span>
+    </a>
+
+    <nav aria-label="主导航" class="hidden items-center gap-8 md:flex">
+      {siteConfig.navigation.map((item) => (
+        <a
+          href={item.href}
+          aria-current={isActive(item.href) ? "page" : undefined}
+          class:list={[
+            "text-sm font-bold transition-colors hover:text-[var(--color-primary)]",
+            isActive(item.href) ? "text-[var(--color-primary)]" : "text-[var(--color-muted)]",
+          ]}
+        >
+          {item.label}
+        </a>
+      ))}
+    </nav>
+
+    <a href="/contact/" class="hidden rounded-xl bg-[var(--color-primary)] px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-[var(--color-primary-dark)] md:inline-flex">
+      联系我们
+    </a>
+
+    <button
+      id="menu-toggle"
+      type="button"
+      class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--color-line)] bg-white md:hidden"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      aria-label="打开导航"
+    >
+      <span aria-hidden="true" class="text-xl">☰</span>
+    </button>
+  </Container>
+
+  <div id="mobile-menu" class="hidden border-t border-[var(--color-line)] bg-white md:hidden">
+    <Container class="flex flex-col py-4">
+      {siteConfig.navigation.map((item) => (
+        <a
+          href={item.href}
+          aria-current={isActive(item.href) ? "page" : undefined}
+          class="border-b border-[var(--color-line)] px-1 py-4 text-base font-bold last:border-0"
+        >
+          {item.label}
+        </a>
+      ))}
+    </Container>
+  </div>
+</header>
+
+<script>
+  const button = document.querySelector<HTMLButtonElement>("#menu-toggle");
+  const menu = document.querySelector<HTMLElement>("#mobile-menu");
+
+  const closeMenu = () => {
+    menu?.classList.add("hidden");
+    button?.setAttribute("aria-expanded", "false");
+    button?.setAttribute("aria-label", "打开导航");
+  };
+
+  button?.addEventListener("click", () => {
+    const willOpen = menu?.classList.contains("hidden") ?? false;
+    menu?.classList.toggle("hidden");
+    button.setAttribute("aria-expanded", String(willOpen));
+    button.setAttribute("aria-label", willOpen ? "关闭导航" : "打开导航");
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeMenu();
+  });
+</script>

@@ -1,0 +1,24 @@
+---
+import company from "../../data/company.json";
+import Button from "../ui/Button.astro";
+import Container from "../ui/Container.astro";
+
+const phoneHref = company.phone.replace(/\s/g, "");
+---
+
+<section class="pb-24 sm:pb-32">
+  <Container>
+    <div class="relative overflow-hidden rounded-[2rem] bg-[var(--color-primary)] px-7 py-14 text-white sm:px-12 lg:grid lg:grid-cols-[1fr_auto] lg:items-center lg:gap-16 lg:px-16">
+      <div class="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[var(--color-accent)] opacity-25" aria-hidden="true"></div>
+      <div class="relative">
+        <p class="text-xs font-extrabold tracking-[.16em] text-[var(--color-accent)]">联系我们</p>
+        <h2 class="mt-4 max-w-3xl text-3xl font-extrabold leading-tight sm:text-4xl">需要钢结构工程的方案沟通或询价？</h2>
+        <p class="mt-5 text-lg text-white/70">直接通过电话或邮件联系我们，说明项目类型与规模即可。</p>
+      </div>
+      <div class="relative mt-8 flex flex-col gap-3 sm:flex-row lg:mt-0 lg:flex-col">
+        <Button href={`tel:${phoneHref}`} variant="inverse">电话 {company.phone}</Button>
+        <Button href={`mailto:${company.email}`} variant="outline">邮件咨询</Button>
+      </div>
+    </div>
+  </Container>
+</section>

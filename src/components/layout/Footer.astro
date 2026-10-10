@@ -1,0 +1,36 @@
+---
+import company from "../../data/company.json";
+import { siteConfig } from "../../../site.config";
+import Container from "../ui/Container.astro";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-[var(--color-ink)] text-white">
+  <Container class="grid gap-12 py-16 md:grid-cols-[1.6fr_1fr_1fr]">
+    <div>
+      <div class="flex items-center gap-3"><span class="grid h-11 w-11 place-items-center rounded-xl bg-white p-1.5"><img src={company.logo} alt={company.name} width="136" height="40" class="h-full w-full object-contain" /></span><span class="text-xl font-extrabold">{company.shortName}</span></div>
+      <p class="mt-6 max-w-md text-sm leading-7 text-white/65">{company.description}</p>
+    </div>
+    <div>
+      <h2 class="text-sm font-bold tracking-[0.16em] text-[var(--color-accent)]">网站导航</h2>
+      <ul class="mt-5 space-y-3 text-sm text-white/75">
+        {siteConfig.navigation.map((item) => <li><a class="hover:text-white" href={item.href}>{item.label}</a></li>)}
+      </ul>
+    </div>
+    <div>
+      <h2 class="text-sm font-bold tracking-[0.16em] text-[var(--color-accent)]">联系方式</h2>
+      <ul class="mt-5 space-y-3 text-sm text-white/75">
+        <li><a class="hover:text-white" href={`mailto:${company.email}`}>{company.email}</a></li>
+        <li><a class="hover:text-white" href={`tel:${company.phone.replace(/\s/g, "")}`}>{company.phone}</a></li>
+        <li>{company.address}</li>
+      </ul>
+    </div>
+  </Container>
+  <div class="border-t border-white/10">
+    <Container class="flex flex-col gap-2 py-6 text-xs text-white/50 sm:flex-row sm:justify-between">
+      <p>© {year} {company.name}</p>
+      <p>超高层钢结构 · 大跨度空间钢结构 · 装配式钢结构</p>
+    </Container>
+  </div>
+</footer>

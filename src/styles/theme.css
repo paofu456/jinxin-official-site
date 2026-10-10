@@ -1,0 +1,14 @@
+:root {
+  --color-ink: #0e2231;
+  --color-muted: #5c6d7d;
+  --color-surface: #f3f6f8;
+  --color-card: #ffffff;
+  --color-line: #dbe3ea;
+  --color-primary: #1c5a86;
+  --color-primary-dark: #12405f;
+  --color-accent: #28a06a;
+  --font-heading: "Aptos Display", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Source Han Sans SC", sans-serif;
+  --font-body: "Aptos", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Source Han Sans SC", sans-serif;
+  --shadow-card: 0 24px 70px rgba(14, 45, 68, 0.12);
+  --radius-card: 1.1rem;
+}

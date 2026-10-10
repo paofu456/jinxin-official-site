@@ -1,0 +1,22 @@
+---
+import CompanyIntro from "../components/sections/CompanyIntro.astro";
+import ContactCta from "../components/sections/ContactCta.astro";
+import FeaturedProducts from "../components/sections/FeaturedProducts.astro";
+import FeaturedProjects from "../components/sections/FeaturedProjects.astro";
+import Hero from "../components/sections/Hero.astro";
+import company from "../data/company.json";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { makePageTitle } from "../lib/seo";
+---
+
+<BaseLayout
+  title={makePageTitle()}
+  description={`${company.name}从事超高层钢结构、大跨度空间钢结构和装配式钢结构建筑的建造与施工，并提供工程案例与联系方式。`}
+  image="/media/company/hero-super-high-rise.jpg"
+>
+  <Hero />
+  <CompanyIntro />
+  <FeaturedProducts />
+  <FeaturedProjects />
+  <ContactCta />
+</BaseLayout>

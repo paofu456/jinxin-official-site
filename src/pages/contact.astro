@@ -1,0 +1,51 @@
+---
+import Container from "../components/ui/Container.astro";
+import company from "../data/company.json";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { makePageTitle } from "../lib/seo";
+
+const phoneHref = company.phone.replace(/\s/g, "");
+const faxHref = company.fax.replace(/\s/g, "");
+---
+
+<BaseLayout
+  title={makePageTitle("联系我们")}
+  description={`通过电话 ${company.phone}、邮箱 ${company.email} 或到访 ${company.address} 联系${company.name}，咨询钢结构工程与装配式建筑项目。`}
+>
+  <section class="relative overflow-hidden bg-[var(--color-ink)] py-20 text-white sm:py-28">
+    <div class="absolute inset-0 opacity-25" aria-hidden="true" style="background-image: radial-gradient(circle at 85% 30%, #28a06a 0, transparent 32%);"></div>
+    <Container class="relative">
+      <p class="mb-5 text-xs font-extrabold tracking-[0.18em] text-[var(--color-accent)]">联系我们</p>
+      <h1 class="max-w-4xl text-4xl font-extrabold leading-[1.12] sm:text-6xl">钢结构工程咨询，直接联系我们。</h1>
+      <p class="mt-7 max-w-2xl text-lg leading-9 text-white/65">电话、传真与邮箱均可直接联系到公司。项目询价时，请一并说明工程类型、项目地点与规模，便于我们判断能否承接。</p>
+    </Container>
+  </section>
+
+  <section class="py-24 sm:py-32">
+    <Container class="grid gap-6 lg:grid-cols-3">
+      <a href={`tel:${phoneHref}`} class="rounded-[var(--radius-card)] border border-[var(--color-line)] bg-white p-8 transition hover:-translate-y-1 hover:shadow-[var(--shadow-card)]">
+        <p class="eyebrow">电话</p>
+        <h2 class="mt-4 text-2xl font-extrabold">{company.phone}</h2>
+        <p class="mt-3 text-[var(--color-muted)]">工作时间内直接致电公司。</p>
+      </a>
+      <a href={`mailto:${company.email}`} class="rounded-[var(--radius-card)] border border-[var(--color-line)] bg-white p-8 transition hover:-translate-y-1 hover:shadow-[var(--shadow-card)]">
+        <p class="eyebrow">邮箱</p>
+        <h2 class="mt-4 break-all text-2xl font-extrabold">{company.email}</h2>
+        <p class="mt-3 text-[var(--color-muted)]">发送工程需求、图纸或询价资料。</p>
+      </a>
+      <a href={`tel:${faxHref}`} class="rounded-[var(--radius-card)] border border-[var(--color-line)] bg-white p-8 transition hover:-translate-y-1 hover:shadow-[var(--shadow-card)]">
+        <p class="eyebrow">传真</p>
+        <h2 class="mt-4 text-2xl font-extrabold">{company.fax}</h2>
+        <p class="mt-3 text-[var(--color-muted)]">如需传真往来，请先电话确认。</p>
+      </a>
+    </Container>
+
+    <Container class="mt-10">
+      <div class="rounded-[var(--radius-card)] bg-[var(--color-primary)] p-8 text-white sm:p-12">
+        <p class="text-xs font-extrabold tracking-[0.16em] text-[var(--color-accent)]">公司地址</p>
+        <h2 class="mt-4 text-3xl font-extrabold">{company.address}</h2>
+        <p class="mt-3 max-w-2xl text-lg text-white/70">邮编 {company.postcode}</p>
+      </div>
+    </Container>
+  </section>
+</BaseLayout>
