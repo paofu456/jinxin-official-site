@@ -1,0 +1,30 @@
+{
+  "slides": [
+    "/media/76e6d0658d55870c.jpg",
+    "/media/118903acce0cb070.jpg",
+    "/media/1260285ab37ce27f.jpg",
+    "/media/8b6969d9c561d78a.jpg",
+    "/media/b355c2611e6f6211.jpg"
+  ],
+  "companyImage": "/media/647e14f4c9470f26.jpg",
+  "video": "/media/company/company-introduction.mp4",
+  "businessImages": [
+    "/media/f712c7589616724e.jpg",
+    "/media/d73f37165bb8605f.jpg",
+    "/media/7368b657b00586a5.jpg"
+  ],
+  "historicalMetrics": [
+    {
+      "value": "56+",
+      "label": "专利"
+    },
+    {
+      "value": "500+",
+      "label": "项目案例"
+    },
+    {
+      "value": "3.2 万吨",
+      "label": "年产能"
+    }
+  ]
+}

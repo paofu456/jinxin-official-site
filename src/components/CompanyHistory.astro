@@ -1,0 +1,41 @@
+---
+import data from '../data/corporate-presentation.json';
+const step=300;
+const width=data.history.length*step;
+const points=data.history.map((_,i)=>`${i*step+145},${i%2?310:235}`).join(' ');
+const years=[...new Set(data.history.map(item=>item.date.split('.')[0]))];
+---
+<section class="wrap company-history" data-history>
+ <div class="history-chart-heading"><div><p>GSIN · 1998 — {years.at(-1)}</p><h2>每一步，都是新的起点</h2></div><label>年份定位<select aria-label="定位发展年份">{years.map(year=><option value={data.history.findIndex(item=>item.date.split('.')[0]===year)}>{year}</option>)}</select></label></div>
+ <div class="history-chart-window" tabindex="0" role="region" aria-label="企业发展历程图表，可使用左右方向键浏览">
+  <div class="history-chart-track" style={`width:${width}px`}>
+   <svg width={width} height="530" viewBox={`0 0 ${width} 530`} aria-hidden="true"><polyline points={points} fill="none" stroke="#9bbdaa" stroke-width="2"/>{data.history.map((_,i)=><circle cx={i*step+145} cy={i%2?310:235} r="7" fill="#fff" stroke="#32b372" stroke-width="3"/>)}</svg>
+   <ol>{data.history.map((item,i)=><li class:list={['history-chart-event',{'is-below':i%2===1}]} style={`left:${i*step+20}px`}><time>{item.date}</time><p>{item.text}</p></li>)}</ol>
+  </div>
+ </div>
+ <div class="history-chart-controls"><p>横向滚动，回看金鑫的发展足迹</p><div><button type="button" data-history-prev aria-label="查看更早的发展历程" disabled><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg></button><span data-history-position aria-live="polite"></span><button type="button" data-history-next aria-label="查看后续发展历程"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m10 6 6 6-6 6"/></svg></button></div></div>
+</section>
+<script>
+const history=document.querySelector<HTMLElement>('[data-history]');
+if(history){
+ const chart=history.querySelector<HTMLElement>('.history-chart-window')!;
+ const prev=history.querySelector<HTMLButtonElement>('[data-history-prev]')!;
+ const next=history.querySelector<HTMLButtonElement>('[data-history-next]')!;
+ const years=history.querySelector<HTMLSelectElement>('select')!;
+ const entries=[...history.querySelectorAll<HTMLElement>('.history-chart-event')];
+ const position=history.querySelector<HTMLElement>('[data-history-position]')!;
+ const motion=()=>matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth';
+ const go=(left:number)=>chart.scrollTo({left,behavior:motion() as ScrollBehavior});
+ const update=()=>{if(!chart.isConnected||!entries.length||chart.clientWidth<=0)return;prev.disabled=chart.scrollLeft<=1;next.disabled=chart.scrollLeft+chart.clientWidth>=chart.scrollWidth-1;const first=Math.min(entries.length-1,Math.floor(chart.scrollLeft/300));const last=Math.min(entries.length-1,Math.floor((chart.scrollLeft+chart.clientWidth-1)/300));position.textContent=`${entries[first].querySelector('time')!.textContent} — ${entries[last].querySelector('time')!.textContent}`;};
+ prev.addEventListener('click',()=>go(chart.scrollLeft-Math.floor(chart.clientWidth/300)*300));
+ next.addEventListener('click',()=>go(chart.scrollLeft+Math.floor(chart.clientWidth/300)*300));
+ years.addEventListener('change',()=>go(Number(years.value)*300));
+ chart.addEventListener('scroll',update,{passive:true});
+ chart.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();go(chart.scrollLeft+(e.key==='ArrowRight'?300:-300));}if(e.key==='Home'){e.preventDefault();go(0);}if(e.key==='End'){e.preventDefault();go(chart.scrollWidth);}});
+ chart.addEventListener('wheel',e=>{if(e.ctrlKey||Math.abs(e.deltaX)>Math.abs(e.deltaY))return;const delta=e.deltaY*(e.deltaMode===1?20:e.deltaMode===2?chart.clientWidth:1);if((delta>0&&chart.scrollLeft+chart.clientWidth<chart.scrollWidth-1)||(delta<0&&chart.scrollLeft>1)){e.preventDefault();chart.scrollLeft+=delta;}},{passive:false});
+ const observer=new ResizeObserver(update);observer.observe(chart);window.addEventListener('pagehide',()=>observer.disconnect(),{once:true});update();
+}
+</script>
+<style>
+.company-history{padding:48px 0 65px}.history-chart-heading{display:flex;justify-content:space-between;align-items:end;padding:0 35px 20px}.history-chart-heading p{font-size:12px;letter-spacing:.13em;color:#6d897a;margin:0 0 14px}.history-chart-heading h2{font-size:29px;font-weight:400;color:#2c4236;margin:0}.history-chart-heading label{font-size:13px;color:#7a847e;display:flex;align-items:center;gap:15px}.history-chart-heading select{font:inherit;font-size:15px;background:white;color:#28543d;border:1px solid #d7e1d9;padding:10px 32px 10px 14px}.history-chart-window{overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:#b7c9be #f0f3f0;outline-offset:4px}.history-chart-track{position:relative;height:530px}.history-chart-track>svg{position:absolute;inset:0}.history-chart-track ol{margin:0;padding:0;list-style:none}.history-chart-event{position:absolute;width:250px;bottom:325px}.history-chart-event.is-below{bottom:auto;top:343px}.history-chart-event time{font-family:Arial,sans-serif;font-size:29px;font-weight:500;color:#29805a;line-height:1.4}.history-chart-event p{font-size:15px;color:#616e66;line-height:1.85;margin:12px 0 0}.history-chart-event:first-child time{color:#32b372}.history-chart-controls{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #e1e8e2;padding:22px 35px 0;margin-top:15px}.history-chart-controls>p{font-size:13px;color:#7d8b80;margin:0}.history-chart-controls>div{display:flex;align-items:center;gap:22px}.history-chart-controls span{font-size:13px;color:#60776a;min-width:145px;text-align:center}.history-chart-controls button{border:1px solid #c7d5cb;background:#fff;color:#2f7851;width:42px;height:42px;display:grid;place-items:center;cursor:pointer}.history-chart-controls button:hover:not(:disabled){background:#edf5ef}.history-chart-controls button:disabled{opacity:.35;cursor:default}@media(max-width:700px){.history-chart-heading{padding:0 0 20px;gap:20px;align-items:start;flex-direction:column}.history-chart-heading h2{font-size:25px}.history-chart-controls{padding:20px 0 0;gap:20px;flex-wrap:wrap}.history-chart-controls>div{gap:15px}.company-history{padding-top:30px}}
+</style>

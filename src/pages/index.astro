@@ -1,22 +1,9 @@
 ---
-import CompanyIntro from "../components/sections/CompanyIntro.astro";
-import ContactCta from "../components/sections/ContactCta.astro";
-import FeaturedProducts from "../components/sections/FeaturedProducts.astro";
-import FeaturedProjects from "../components/sections/FeaturedProjects.astro";
-import Hero from "../components/sections/Hero.astro";
-import company from "../data/company.json";
-import BaseLayout from "../layouts/BaseLayout.astro";
-import { makePageTitle } from "../lib/seo";
+import body from '../data/original-home.html?raw';
+import SeoHead from '../components/SeoHead.astro';
+import company from '../data/company.json';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+const [beforeFooter,afterFooter]=body.split('<!-- SITE_FOOTER -->');
 ---
-
-<BaseLayout
-  title={makePageTitle()}
-  description={`${company.name}从事超高层钢结构、大跨度空间钢结构和装配式钢结构建筑的建造与施工，并提供工程案例与联系方式。`}
-  image="/media/company/hero-super-high-rise.jpg"
->
-  <Hero />
-  <CompanyIntro />
-  <FeaturedProducts />
-  <FeaturedProjects />
-  <ContactCta />
-</BaseLayout>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><SeoHead title="金鑫绿建 | 钢结构与装配式建筑" description={company.description}/><link rel="stylesheet" href="/replica/skin/jx/css/reset.css"/><link rel="stylesheet" href="/replica/skin/jx/css/fullpage.min.css"/><link rel="stylesheet" href="/replica/skin/jx/css/style.css"/><link rel="stylesheet" href="/replica/home.css"/><script is:inline src="/replica/skin/jx/js/jquery.min.js"></script></head><body><SiteHeader home/><Fragment set:html={beforeFooter}/><SiteFooter/><Fragment set:html={afterFooter}/><script is:inline src="/replica/skin/jx/js/fullpage.min.js"></script><script is:inline src="/replica/skin/jx/js/jquery.flexslider.js"></script><script is:inline src="/replica/skin/jx/js/jquery.counterup.js"></script><script is:inline src="/replica/skin/jx/js/main.js"></script><script is:inline src="/replica/home.js"></script></body></html>

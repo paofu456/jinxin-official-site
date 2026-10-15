@@ -1,0 +1,35 @@
+---
+import CompanyContact from '../components/CompanyContact.astro';
+import Layout from '../layouts/Layout.astro';
+import archive from '../data/archive.json';
+import company from '../data/company.json';
+import projects from '../data/project-catalog.json';
+import ProjectDetail from '../components/project/ProjectDetail.astro';
+import CorporateRecord from '../components/records/CorporateRecord.astro';
+import NewsRecord from '../components/records/NewsRecord.astro';
+export function getStaticPaths(){return archive.map(page=>({params:{path:page.path.slice(1).replace(/\.html$/,'')},props:{page}}));}
+interface Props {page:typeof archive[number];}
+const {page}=Astro.props;
+const project=projects.find(p=>p.path===page.path);
+const corporate=['/page/gsjs.html','/page/fzlc.html','/page/zpsgjgqbjztx.html'].includes(page.path)||/^\/(article\/(zzzs|gsry)|download\/jszl)(\/|\.html)/.test(page.path);
+const isContact=page.path==='/page/lxwm.html';
+ const category=page.kind==='project'?'工程案例':page.kind==='news'?'企业动态':page.path.includes('jszl')||page.path.includes('zpsgjgqbjztx')?'科技创新':page.submenu.some(p=>p.label==='公司介绍')?'关于金鑫':page.title;
+---
+<Layout title={page.title} description={page.text.trim().slice(0,150)||`${page.title} — ${company.description}`} showInquiry={false}>
+{isContact?<CompanyContact/>:project?<ProjectDetail project={project}/>:corporate?<CorporateRecord page={page}/>:page.kind==='news'?<NewsRecord page={page}/>:<>
+<section class={'page-heading '+(page.kind==='project'?'project-heading':'')}><div class="wrap"><div class="breadcrumbs"><a href="/">首页</a><span>/</span><span>{category}</span></div><h1>{page.title}</h1><p>{isContact?'告诉我们工程需求，让沟通更有针对性。':page.kind==='project'?'从项目概况到结构实践，完整呈现工程资料。':page.kind==='news'?'关注工程进展，记录企业实践。':'完整了解金鑫绿建的工程实践与企业积累。'}</p></div></section>
+{page.submenu.length>0&&<div class="subnav"><nav class="wrap" aria-label="栏目导航">{page.submenu.map(item=><a href={item.href} class={item.href===page.path?'active':''}>{item.label}</a>)}</nav></div>}
+<div class="wrap archive-wrap">
+
+{page.kind==='project'&&<aside class="record-note">项目图片中部分为效果图；项目参数为整体资料，本公司具体承包范围以合同约定为准。</aside>}
+{isContact?<section class="contact-grid"><div><h2>从一次沟通，<br/>开始下一段工程。</h2><p>请提供工程类型、项目地点与规模，便于工程团队评估需求并提供针对性建议。</p></div><dl><div><dt>工程咨询</dt><dd><a href={'tel:'+company.phone}>{company.phone}</a></dd></div><div><dt>电子邮箱</dt><dd><a href={'mailto:'+company.email}>{company.email}</a></dd></div><div><dt>公司地址</dt><dd>{company.address}</dd></div><div><dt>传真</dt><dd>{company.fax}</dd></div><div><dt>邮编</dt><dd>{company.postcode}</dd></div></dl></section>:<article class={'archive-content '+page.kind} set:html={page.html}/>}
+{page.kind==='project'&&<div class="detail-consult"><div><h2>有类似的工程需求？</h2></div><a class="button green" href="/page/lxwm.html">咨询同类工程</a></div>}
+
+</div>
+</>}
+<script>
+ const article=document.querySelector('.archive-content');
+ function showImage(img:HTMLImageElement){const dialog=document.createElement('dialog');dialog.className='image-dialog';const close=document.createElement('button');close.textContent='关闭 ×';close.setAttribute('aria-label','关闭图片预览');dialog.append(close,img.cloneNode(true));document.body.append(dialog);close.addEventListener('click',()=>dialog.close());dialog.addEventListener('click',e=>{if(e.target===dialog)dialog.close();});dialog.addEventListener('close',()=>dialog.remove());dialog.showModal();close.focus();}
+ article?.querySelectorAll('img').forEach(img=>{const link=img.closest('a');if(link){if(link.classList.contains('lightbox'))link.addEventListener('click',e=>{e.preventDefault();showImage(img);});return;}const button=document.createElement('button');button.type='button';button.className='image-zoom';button.setAttribute('aria-label','放大查看'+img.alt);img.replaceWith(button);button.append(img);button.addEventListener('click',()=>showImage(img));});
+</script>
+</Layout>

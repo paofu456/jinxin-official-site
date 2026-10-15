@@ -1,10 +1,9 @@
 ---
 import { render, type CollectionEntry } from "astro:content";
-import ContactCta from "../../components/sections/ContactCta.astro";
 import ProductGallery from "../../components/product/ProductGallery.astro";
-import ProductSpecs from "../../components/product/ProductSpecs.astro";
-import Container from "../../components/ui/Container.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import catalog from "../../data/project-catalog.json";
+import {business} from "../../data/business";
 import { getPublishedProducts } from "../../lib/products";
 
 export async function getStaticPaths() {
@@ -21,6 +20,15 @@ interface Props {
 
 const { product } = Astro.props;
 const { Content } = await render(product);
+const category=business.find(b=>b.slug===product.data.slug)?.category;
+const related=catalog.filter(p=>p.categories.includes(category||""));
+const detailedPages: Record<string, string> = {
+  'super-high-rise-steel-building': '/article/gjg.html',
+  'long-span-space-steel-building': '/article/mkhgjg.html',
+  'prefabricated-steel-building': '/article/zpsjz.html',
+  'steel-urban-facility': '/article/zpsgjgcsyycp.html',
+  'steel-villa-house': '/article/gjgxcbscp.html',
+};
 ---
 
 <BaseLayout
@@ -28,27 +36,7 @@ const { Content } = await render(product);
   description={product.data.seo.description}
   image={product.data.images[0].src}
 >
-  <section class="border-b border-[var(--color-line)] bg-white py-16 sm:py-24">
-    <Container>
-      <a href="/products/" class="inline-flex items-center gap-2 text-sm font-bold text-[var(--color-primary)]">← 返回钢结构业务</a>
-      <div class="mt-10 grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
-        <ProductGallery images={product.data.images} />
-        <div>
-          <p class="eyebrow mb-4">业务方向</p>
-          <h1 class="text-5xl font-extrabold leading-[1.05] sm:text-6xl">{product.data.title}</h1>
-          <p class="mt-7 text-xl leading-9 text-[var(--color-muted)]">{product.data.summary}</p>
-          <a href="/contact/" class="mt-8 inline-flex min-h-12 items-center rounded-full bg-[var(--color-primary)] px-6 py-3 text-sm font-bold text-white hover:bg-[var(--color-primary-dark)]">咨询该业务</a>
-        </div>
-      </div>
-    </Container>
-  </section>
-
-  <section class="py-24 sm:py-32">
-    <Container class="grid items-start gap-14 lg:grid-cols-[1fr_.85fr] lg:gap-20">
-      <article class="prose-site"><Content /></article>
-      <ProductSpecs specifications={product.data.specifications} />
-    </Container>
-  </section>
-
-  <ContactCta />
+  <section class="wrap business-detail-head"><nav class="breadcrumbs" aria-label="当前位置"><a href="/">首页</a><span>/</span><a href="/projects/">业务与案例</a><span>/</span><span>{product.data.title}</span></nav><div class="business-detail-grid"><ProductGallery images={product.data.images}/><div><h1>{product.data.title}</h1><p>{product.data.summary}</p><a class="button green" href="/contact/">咨询该业务</a></div></div></section>
+  <section class="wrap business-detail-body"><article class="prose-site"><Content/><p><a class="text-link" href={detailedPages[product.data.slug]}>了解业务详情</a></p></article><aside><h2>业务资料</h2><dl class="parameter-list">{product.data.specifications.map(s=><div><dt>{s.label}</dt><dd>{s.value}</dd></div>)}</dl></aside></section>
+  <section class="wrap business-case-entry"><div><h2>本业务的工程案例</h2><p>了解 {related.length} 个相关工程的项目概况与建造实践。</p></div><a href={`/projects/?category=${encodeURIComponent(category||'全部工程')}`}>查看{category}工程案例</a></section>
 </BaseLayout>

@@ -1,0 +1,21 @@
+---
+import '../styles/global.css';
+import '../styles/site.css';
+import '../styles/content-design.css';
+import SeoHead from '../components/SeoHead.astro';
+import company from '../data/company.json';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+interface Props { title: string; description?: string; image?: string; noindex?: boolean; showInquiry?: boolean; }
+const { title, description=company.description, image, noindex, showInquiry=true }=Astro.props;
+---
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><SeoHead title={title} description={description} image={image} noindex={noindex}/></head>
+<body>
+<a href="#main-content" class="skip">跳转到正文</a>
+<SiteHeader/>
+<main id="main-content"><slot/></main>
+{showInquiry&&<section class="inquiry"><div class="wrap inquiry-inner"><div><p class="eyebrow light">LET’S BUILD TOGETHER</p><h2>让下一个建筑构想，<br/>成为可落地的工程。</h2><p>告诉我们项目类型、地点与规模，开启一次有针对性的方案沟通。</p></div><a class="button cream" href="/contact/">与工程团队沟通 </a></div></section>}
+<SiteFooter/>
+</body></html>

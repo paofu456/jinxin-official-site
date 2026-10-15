@@ -1,30 +1,5 @@
 ---
-import ProjectCard from "../../components/project/ProjectCard.astro";
-import Container from "../../components/ui/Container.astro";
-import { getPublishedProjects } from "../../lib/projects";
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import { makePageTitle } from "../../lib/seo";
-
-const projects = await getPublishedProjects();
+import Layout from '../../layouts/Layout.astro';
+import BusinessProjects from '../../components/BusinessProjects.astro';
 ---
-
-<BaseLayout
-  title={makePageTitle("工程案例")}
-  description="金鑫绿建的钢结构工程案例，涵盖超高层钢结构、大跨度空间钢结构、装配式钢结构、城市运营建筑产品与钢结构别墅住宅产品。"
->
-  <section class="border-b border-[var(--color-line)] bg-white py-20 sm:py-28">
-    <Container>
-      <p class="eyebrow mb-5">工程案例</p>
-      <h1 class="max-w-5xl text-5xl font-extrabold leading-[1.05] sm:text-7xl">用建成项目呈现钢结构工程能力。</h1>
-      <p class="mt-7 max-w-3xl text-xl leading-9 text-[var(--color-muted)]">以下案例均来自公司项目记录，包含业务类别、关键项目参数与项目图片。项目图片中部分为效果图，不代表竣工实拍；项目参数为项目整体资料，本公司具体承包范围以合同约定为准。</p>
-    </Container>
-  </section>
-
-  <section class="py-24 sm:py-32">
-    <Container>
-      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {projects.map((project) => <ProjectCard project={project} />)}
-      </div>
-    </Container>
-  </section>
-</BaseLayout>
+<Layout title="业务与工程案例 | 金鑫绿建" description="金鑫绿建五大钢结构业务与71个工程案例，按业务方向查阅结构体系、应用场景、项目参数和图片。" showInquiry={false}><BusinessProjects/></Layout>

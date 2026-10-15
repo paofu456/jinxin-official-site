@@ -1,0 +1,18 @@
+---
+import company from '../data/company.json';
+import {siteConfig} from '../../site.config';
+---
+<footer class="gsin-footer" data-site-footer>
+ <div class="gsin-footer-top"><nav class="gsin-footer-inner" aria-label="页脚导航">{siteConfig.navigation.map(item=><a href={item.href}>{item.label}</a>)}</nav></div>
+ <div class="gsin-footer-inner gsin-footer-bottom">
+  <a class="gsin-footer-logo" href="/" aria-label={`${company.shortName}首页`}><img src="/media/aa610ace6fdd23b1.png" alt="GSIN 金鑫绿建" width="136" height="40"/></a>
+  <div class="gsin-footer-records"><p>{company.name}</p><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">粤ICP备19013304号</a><a class="gsin-police-record" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44030702002504" target="_blank" rel="noopener"><img src="/media/036c90178b252dcc.png" alt="" aria-hidden="true" width="20" height="20"/>粤公网安备44030702002504号</a></div>
+  <img class="gsin-footer-qr" src="/media/39ce2f1bfebb3469.png" alt="金鑫绿建公众号二维码" width="88" height="88" loading="lazy"/>
+  <div class="gsin-footer-contact"><p>全国热线</p><a class="gsin-footer-phone" href={'tel:'+company.phone}>{company.phone}</a><a href={'mailto:'+company.email}>{company.email}</a><p>{company.address}</p></div>
+ </div>
+</footer>
+<style>
+ .gsin-footer,.gsin-footer *{box-sizing:border-box}.gsin-footer{width:100%;padding:0;margin:0;background:#fff;color:#777;border-top:0;font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif;font-size:12px;line-height:1.8;letter-spacing:0}.gsin-footer-inner{max-width:1400px;width:calc(100% - 40px);margin:0 auto}.gsin-footer-top{border-top:2px solid #32b372;border-bottom:1px solid #ededed;padding:29px 0}.gsin-footer-top nav{display:flex;gap:60px;flex-wrap:wrap}.gsin-footer a{text-decoration:none;color:inherit}.gsin-footer p{margin:0;font-size:12px;line-height:1.8;color:#777}.gsin-footer-top a{font-size:16px;font-weight:400;line-height:1.5;color:#383735}.gsin-footer a:hover{color:#248957}.gsin-footer-bottom{display:grid;grid-template-columns:154px minmax(280px,1fr) 88px minmax(260px,1fr);gap:24px;align-items:center;padding:30px 0}.gsin-footer-logo img{display:block;width:136px;height:40px}.gsin-footer-records{border-left:1px solid #dbdbdb;padding-left:18px}.gsin-footer-records>a{display:block;font-size:12px}.gsin-police-record{display:flex!important;align-items:center;gap:5px}.gsin-police-record img{display:block;width:20px;height:20px;margin:0}.gsin-footer-qr{display:block;width:88px;height:88px;margin:0}.gsin-footer-contact{text-align:right}.gsin-footer-contact>a{display:block;font-size:12px}.gsin-footer-contact .gsin-footer-phone{font-size:22px;line-height:1.6;font-weight:400}.gsin-footer :is(a):focus-visible{outline:2px solid #16744f;outline-offset:4px}
+ @media(max-width:1000px){.gsin-footer-bottom{grid-template-columns:136px 1fr 88px}.gsin-footer-contact{grid-column:2/-1;text-align:left}.gsin-footer-top nav{gap:30px}}
+ @media(max-width:600px){.gsin-footer-bottom{grid-template-columns:1fr 88px;gap:22px}.gsin-footer-logo{grid-column:1/-1}.gsin-footer-records{border:0;padding:0;min-width:0}.gsin-footer-contact{grid-column:1/-1}.gsin-footer-top{padding:22px 0}.gsin-footer-top nav{gap:15px 25px}.gsin-footer-top a{font-size:14px}}
+</style>
