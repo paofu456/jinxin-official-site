@@ -2,31 +2,47 @@
 import CompanyHistory from '../CompanyHistory.astro';
 import AboutCompany from '../AboutCompany.astro';
 import ContentHeading from '../ContentHeading.astro';
-import data from '../../data/corporate-presentation.json';
+import dataZh from '../../data/corporate-presentation.json';
+import dataEn from '../../data/corporate-presentation-en.json';
 import archive from '../../data/archive.json';
 
-import projects from '../../data/project-catalog.json';
-interface Props { page: typeof archive[number]; }
-const {page}=Astro.props;
+import projectsZh from '../../data/project-catalog.json';
+import { getProjectCatalog, localizedRecordHref } from '../../lib/catalog';
+import { t, toLocalePath, type Locale } from '../../i18n/ui';
+
+interface Props { page: typeof archive[number]; lang?: Locale; }
+const {page, lang='zh'}=Astro.props;
+const strings=t(lang).records;
+const data=lang==='en'?dataEn:dataZh;
+const projects=getProjectCatalog(lang);
 const about=page.path==='/page/gsjs.html';const technology=page.path==='/page/zpsgjgqbjztx.html';const history=page.path==='/page/fzlc.html';
 const certificates=page.path.includes('/zzzs');const honors=page.path.includes('/gsry');const patents=page.path.includes('/jszl');
 const documents=certificates?data.certificates:data.honors;
-const documentFilters=certificates?[{label:'全部资料',id:'all'},{label:'营业登记',id:'registration'},{label:'施工资质',id:'qualification'},{label:'企业认证',id:'certification'}]:[{label:'全部资料',id:'all'},{label:'企业荣誉',id:'company'},{label:'工程荣誉',id:'project'}];
-function documentCategory(title:string){return certificates?(/营业/.test(title)?'registration':/承包|资质|许可/.test(title)?'qualification':'certification'):(/项目|大厦|广场|工程奖|金奖|粤钢|工地|中心.*奖/.test(title)?'project':'company');}
+const documentFilters=certificates?strings.certificateFilters:strings.honorFilters;
+const zhDocTitle=new Map([...dataZh.certificates,...dataZh.honors].map(d=>[d.src,d.title]));
+function documentCategory(doc:{src:string;title:string}){const title=lang==='en'?(zhDocTitle.get(doc.src)||doc.title):doc.title;return certificates?(/营业/.test(title)?'registration':/承包|资质|许可/.test(title)?'qualification':'certification'):(/项目|大厦|广场|工程奖|金奖|粤钢|工地|中心.*奖/.test(title)?'project':'company');}
 
 
-const description=about?'企业概况、工程实践与研发积累。':technology?'从主体结构到围护系统，了解完整的装配式建筑技术。':history?'从制作安装起步，记录企业发展的每一步。':patents?'以持续研发，推动装配式钢结构建筑技术进步。':'专业积累，见证金鑫的成长与工程实践。';
-const technologyPhoto=projects.find(p=>p.title.includes('库马克'))?.images[1];
+const description=about?strings.descriptionAbout:technology?strings.descriptionTechnology:history?strings.descriptionHistory:patents?strings.descriptionPatents:strings.descriptionDefault;
+const kumakeZh=projectsZh.find(p=>p.title.includes('库马克'));
+const technologyPhoto=projects.find(p=>p.path===kumakeZh?.path)?.images[1]||kumakeZh?.images[1];
 const applications=data.technologyProjects.map(path=>projects.find(p=>p.path===path)).filter((p):p is typeof projects[number]=>!!p);
+// Untranslated archive records carry Chinese submenu hrefs; keep them inside the /en/ frame.
+const currentHref=lang==='en'?'/en'+page.path:page.path;
+const submenu=page.submenu.map(item=>({...item,href:lang==='en'&&/^\/(article|page|download)\//.test(item.href)?'/en'+item.href:item.href}));
 ---
-{about?<AboutCompany submenu={page.submenu}/>:<><ContentHeading title={page.title} description={description} image={technology?'/media/projects/kumake-building-01.jpg':undefined} imageAlt={technology?'库马克大厦':''}/><nav class="record-navigation wrap" aria-label="栏目导航">{page.submenu.map(item=><a href={item.href} aria-current={item.href===page.path?'page':undefined}>{item.label}</a>)}</nav></>}
-{technology&&<><section class="technology-system wrap"><div><p class="eyebrow">装配式建筑体系</p><h2>主体、围护与建造协同</h2><article class="prose-site" set:html={data.technologyHtml}/></div><img src={technologyPhoto?.src||'/media/products/prefabricated-steel-building.jpg'} alt={technologyPhoto?.alt||'装配式建筑工程资料图片'}/></section><section class="system-parts wrap"><div><span>S</span><h2>钢结构主体</h2><p>Steel-structure</p></div><div><span>L</span><h2>轻板围护系统</h2><p>Light-weight cladding system</p></div><div><span>A</span><h2>装配式建筑技术</h2><p>Assembled building technology</p></div></section><section class="system-process wrap"><h2>从设计到建造</h2><ol>{['标准化设计','工厂化制作','装配化施工','信息化管理'].map((text,i)=><li><span>0{i+1}</span>{text}</li>)}</ol><a class="text-link" href="/download/jszl.html">查阅技术专利</a></section><section class="wrap related-projects"><div class="section-heading"><h2>体系应用工程</h2><a href="/projects/">全部工程案例</a></div><div class="catalog-grid">{applications.map(p=><a class="catalog-card" href={p.path}>{p.images[0]&&<img src={p.images[0].src} alt={p.title} loading="lazy"/>}<h3>{p.title}</h3><p>{p.summary}</p></a>)}</div></section></>}
-{history&&<CompanyHistory/>}
-{(certificates||honors)&&<section class="wrap document-library" data-document-page-size={honors?9:documents.length}><div class="document-toolbar"><p class="document-count" aria-live="polite">共 {documents.length} 项{honors?` · 第 1 / ${Math.ceil(documents.length/9)} 页`:null}</p><div role="group" aria-label="资料分类">{documentFilters.map((filter,i)=><button type="button" data-document-filter={filter.id} aria-pressed={i===0?'true':'false'}>{filter.label}</button>)}</div></div><div class="document-grid">{documents.map((doc,i)=><article hidden={honors&&i>=9} class="document-card" data-document-category={documentCategory(doc.title)}><button class="document-zoom" type="button" aria-label={`放大查看${doc.title}`}><img src={doc.src} alt={doc.title} loading="lazy"/></button><span>{certificates?'资质证书':'公司荣誉'}</span><h2>{doc.title}</h2><a href={doc.src} target="_blank" rel="noopener">查看原图</a></article>)}</div><p class="document-empty" hidden>该分类暂无资料。</p>{honors&&<nav class="project-pagination document-pagination" aria-label="公司荣誉分页"><button type="button" data-document-step="-1" disabled>上一页</button><div class="document-page-numbers">{Array.from({length:Math.ceil(documents.length/9)},(_,i)=><button type="button" data-document-page={i+1} aria-label={`第 ${i+1} 页`} aria-current={i===0?'page':undefined}>{i+1}</button>)}</div><button type="button" data-document-step="1">下一页</button></nav>}</section>}
-{patents&&<section class="wrap patent-record"><div class="patent-record-intro"><p class="eyebrow">技术积累</p><h2>技术专利资料</h2><p>围绕钢结构与装配式建筑，持续开展技术研发与成果应用。</p><a href="/page/zpsgjgqbjztx.html">查看技术体系</a></div><article class="archive-content" set:html={page.html}/></section>}
+{about?<AboutCompany submenu={page.submenu} lang={lang}/>:<><ContentHeading title={page.title} description={description} image={technology?'/media/projects/kumake-building-01.jpg':undefined} imageAlt={technology?(lang==='en'?'Cumark Tower':'库马克大厦'):''} variant={technology||patents?'tech':'corporate'} lang={lang}/><nav class="record-navigation wrap" aria-label={strings.subnavAria}>{submenu.map(item=><a href={item.href} aria-current={item.href===currentHref?'page':undefined}>{item.label}</a>)}</nav></>}
+{technology&&<><section class="technology-system wrap"><div><p class="eyebrow">{strings.technologyEyebrow}</p><h2>{strings.technologyHeading}</h2><article class="prose-site" set:html={data.technologyHtml}/></div><img src={technologyPhoto?.src||'/media/products/prefabricated-steel-building.jpg'} alt={technologyPhoto?.alt||strings.technologyImageAlt}/></section><section class="system-parts wrap">{strings.systemParts.map(part=><div><span>{part.letter}</span><h2>{part.title}</h2><p>{part.sub}</p></div>)}</section><section class="system-process wrap"><h2>{strings.processHeading}</h2><ol>{strings.processSteps.map((text,i)=><li><span>0{i+1}</span>{text}</li>)}</ol><a class="text-link" href={toLocalePath(lang,'/download/jszl.html')}>{strings.processLink}</a></section><section class="wrap related-projects"><div class="section-heading"><h2>{strings.applicationsHeading}</h2><a href={toLocalePath(lang,'/projects/')}>{strings.applicationsLink}</a></div><div class="catalog-grid">{applications.map(p=><a class="catalog-card" href={localizedRecordHref(p,'projects',lang)}>{p.images[0]&&<img src={p.images[0].src} alt={p.title} loading="lazy"/>}<h3>{p.title}</h3><p>{p.summary}</p></a>)}</div></section></>}
+{history&&<CompanyHistory lang={lang}/>}
+{(certificates||honors)&&<section class="wrap document-library" data-document-page-size={honors?9:documents.length}><div class="document-toolbar"><p class="document-count" aria-live="polite">{honors?strings.documentsCountPage(documents.length,1,Math.ceil(documents.length/9)):strings.documentsCount(documents.length)}</p><div role="group" aria-label={strings.documentsFilterAria}>{documentFilters.map((filter,i)=><button type="button" data-document-filter={filter.id} aria-pressed={i===0?'true':'false'}>{filter.label}</button>)}</div></div><div class="document-grid">{documents.map((doc,i)=><article hidden={honors&&i>=9} class="document-card" data-document-category={documentCategory(doc)}><button class="document-zoom" type="button" aria-label={strings.documentZoomAria(doc.title)}><img src={doc.src} alt={doc.title} loading="lazy"/></button><span>{certificates?strings.certificateTag:strings.honorTag}</span><h2>{doc.title}</h2><a href={doc.src} target="_blank" rel="noopener">{strings.documentViewOriginal}</a></article>)}</div><p class="document-empty" hidden>{strings.documentsEmpty}</p>{honors&&<nav class="project-pagination document-pagination" aria-label={strings.honorsPaginationAria}><button type="button" data-document-step="-1" disabled>{strings.prevPage}</button><div class="document-page-numbers">{Array.from({length:Math.ceil(documents.length/9)},(_,i)=><button type="button" data-document-page={i+1} aria-label={strings.pageAria(i+1)} aria-current={i===0?'page':undefined}>{i+1}</button>)}</div><button type="button" data-document-step="1">{strings.nextPage}</button></nav>}</section>}
+{patents&&<section class="wrap patent-record"><div class="patent-record-intro"><p class="eyebrow">{strings.patentEyebrow}</p><h2>{strings.patentHeading}</h2><p>{strings.patentText}</p><a href={toLocalePath(lang,'/page/zpsgjgqbjztx.html')}>{strings.patentLink}</a></div><article class="archive-content" set:html={page.html}/></section>}
 
+<script is:inline type="application/json" data-doc-strings set:html={JSON.stringify({close:strings.closeDialog,count:strings.documentsCountTemplate,page:strings.documentsPageTemplate,pageAria:strings.pageAriaTemplate})}></script>
 <script>
-document.querySelectorAll<HTMLButtonElement>('.document-zoom').forEach(button=>button.addEventListener('click',()=>{const img=button.querySelector('img');if(!img)return;const dialog=document.createElement('dialog');dialog.className='image-dialog';dialog.setAttribute('aria-label',img.alt);const close=document.createElement('button');close.type='button';close.textContent='关闭';dialog.append(close,img.cloneNode(true));document.body.append(dialog);close.addEventListener('click',()=>dialog.close());dialog.addEventListener('click',e=>{if(e.target===dialog)dialog.close();});dialog.addEventListener('close',()=>{dialog.remove();button.focus();});dialog.showModal();close.focus();}));
+const dsEl=document.querySelector('[data-doc-strings]');
+const ds=dsEl?JSON.parse(dsEl.textContent||'{}'):{close:'关闭',count:'共 {n} 项',page:' · 第 {page} / {pages} 页 · 本页 {from}–{to} 项',pageAria:'第 {n} 页'};
+const fmt=(tpl:string,vars:Record<string,number>)=>String(tpl||'').replace(/\{(\w+)\}/g,(_,k)=>String(vars[k]??''));
+document.querySelectorAll<HTMLButtonElement>('.document-zoom').forEach(button=>button.addEventListener('click',()=>{const img=button.querySelector('img');if(!img)return;const dialog=document.createElement('dialog');dialog.className='image-dialog';dialog.setAttribute('aria-label',img.alt);const close=document.createElement('button');close.type='button';close.textContent=ds.close;dialog.append(close,img.cloneNode(true));document.body.append(dialog);close.addEventListener('click',()=>dialog.close());dialog.addEventListener('click',e=>{if(e.target===dialog)dialog.close();});dialog.addEventListener('close',()=>{dialog.remove();button.focus();});dialog.showModal();close.focus();}));
 const library=document.querySelector<HTMLElement>('[data-document-page-size]');
 if(library){
  const filters=[...library.querySelectorAll<HTMLButtonElement>('[data-document-filter]')];
@@ -40,10 +56,10 @@ if(library){
   const matches=cards.filter(card=>category==='all'||card.dataset.documentCategory===category);
   const pages=Math.ceil(matches.length/size);page=Math.max(1,Math.min(page,pages||1));
   cards.forEach(card=>card.hidden=true);matches.slice((page-1)*size,page*size).forEach(card=>card.hidden=false);
-  const count=library!.querySelector('.document-count');if(count)count.textContent=`共 ${matches.length} 项`+(pagination&&matches.length?` · 第 ${page} / ${pages} 页 · 本页 ${(page-1)*size+1}–${Math.min(page*size,matches.length)} 项`:'');
+  const count=library!.querySelector('.document-count');if(count)count.textContent=fmt(ds.count,{n:matches.length})+(pagination&&matches.length?fmt(ds.page,{page,pages,from:(page-1)*size+1,to:Math.min(page*size,matches.length)}):'');
   const empty=library!.querySelector<HTMLElement>('.document-empty');if(empty)empty.hidden=matches.length>0;
   if(pagination)pagination.hidden=pages<=1;if(prev)prev.disabled=page===1;if(next)next.disabled=page>=pages;
-  if(numbers){numbers.replaceChildren();for(let n=1;n<=pages;n++){const button=document.createElement('button');button.type='button';button.dataset.documentPage=String(n);button.textContent=String(n);button.setAttribute('aria-label',`第 ${n} 页`);if(n===page)button.setAttribute('aria-current','page');numbers.append(button);}}
+  if(numbers){numbers.replaceChildren();for(let n=1;n<=pages;n++){const button=document.createElement('button');button.type='button';button.dataset.documentPage=String(n);button.textContent=String(n);button.setAttribute('aria-label',fmt(ds.pageAria,{n}));if(n===page)button.setAttribute('aria-current','page');numbers.append(button);}}
  }
  filters.forEach(button=>button.addEventListener('click',()=>{category=button.dataset.documentFilter!;page=1;filters.forEach(b=>b.setAttribute('aria-pressed',String(b===button)));update();}));
  pagination?.addEventListener('click',event=>{const button=(event.target as HTMLElement).closest<HTMLButtonElement>('button');if(!button)return;if(button.dataset.documentPage)page=Number(button.dataset.documentPage);else if(button.dataset.documentStep)page+=Number(button.dataset.documentStep);else return;update();library!.querySelector('.document-toolbar')?.scrollIntoView({block:'start'});if(button.dataset.documentPage)numbers?.querySelector<HTMLButtonElement>(`[data-document-page="${page}"]`)?.focus({preventScroll:true});});update();

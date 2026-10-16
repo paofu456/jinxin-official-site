@@ -1,0 +1,8 @@
+---
+import type {PaginateFunction} from 'astro';
+import news from '../../../data/news-catalog.json';
+import NewsListing from '../../../components/pages/NewsListing.astro';
+export function getStaticPaths({paginate}:{paginate:PaginateFunction}){return paginate(news,{pageSize:12});}
+const {page}=Astro.props;
+---
+<NewsListing page={page} lang="en"/>

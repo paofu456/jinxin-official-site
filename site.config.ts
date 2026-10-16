@@ -12,4 +12,12 @@ export const siteConfig = {
     { label: "新闻中心", href: "/news/" },
     { label: "联系我们", href: "/contact/" },
   ],
+  navigationEn: [
+    { label: "Home", href: "/en/" },
+    { label: "About GSIN", href: "/en/about/" },
+    { label: "Business & Projects", href: "/en/projects/" },
+    { label: "Technological Innovation", href: "/en/page/zpsgjgqbjztx.html" },
+    { label: "News", href: "/en/news/" },
+    { label: "Contact Us", href: "/en/contact/" },
+  ],
 };

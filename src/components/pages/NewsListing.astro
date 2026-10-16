@@ -1,0 +1,33 @@
+---
+import type {Page} from 'astro';
+import Layout from '../../layouts/Layout.astro';
+import ContentHeading from '../ContentHeading.astro';
+import newsZh from '../../data/news-catalog.json';
+import { t, type Locale } from '../../i18n/ui';
+import { getCompany } from '../../i18n/ui';
+type NewsRecordItem=typeof newsZh[number];
+interface Props {page:Page<NewsRecordItem>; lang?: Locale;}
+const {page, lang='zh'}=Astro.props;
+const strings=t(lang).news;
+const company=getCompany(lang);
+// News content stays Chinese in the English version; the listing links to the
+// English-framed archive pages so navigation never leaves the /en/ frame.
+const items=page.data;
+const newsHref=(n:NewsRecordItem)=>lang==='en'?'/en'+n.path:n.path;
+const featured=page.currentPage===1?items.slice(0,3):[];
+const listed=page.currentPage===1?items.slice(3):items;
+const pageHref=(i:number)=>lang==='en'?(i===1?'/en/news/':`/en/news/${i}/`):(i===1?'/news/':`/news/${i}/`);
+const title=`${strings.headingTitle}${page.currentPage>1?strings.pageTitleSuffix(page.currentPage):''} | ${lang==='en'?company.shortName:'金鑫绿建'}`;
+---
+<Layout title={title} description={strings.listDescription} showInquiry={false} lang={lang}>
+<ContentHeading title={strings.headingTitle} description={strings.headingDescription} variant="news" lang={lang}/>
+<section class="wrap newsroom">
+ {featured.length>0&&<section aria-labelledby="featured-news-title"><div class="news-section-heading"><h2 id="featured-news-title">{strings.featuredHeading}</h2><span>{strings.featuredEyebrow}</span></div><div class="news-highlights">{featured.map(n=><a class="news-highlight" href={newsHref(n)}><div class="news-highlight-image"><img src={n.image} alt={n.title} loading="lazy"/></div><div class="news-highlight-copy"><time datetime={n.date}>{n.date}</time><h3>{n.title}</h3><p>{n.summary}</p><span>{strings.readMore}</span></div></a>)}</div></section>}
+ <section aria-labelledby="all-news-title" class="news-text-section"><div class="news-section-heading"><h2 id="all-news-title">{page.currentPage===1?strings.moreHeading:strings.allHeading}</h2><span>{strings.totalInfo(page.total,page.currentPage,page.lastPage)}</span></div><div class="news-text-list">{listed.map(n=><a href={newsHref(n)}><div><h3>{n.title}</h3><time datetime={n.date}>{strings.datePrefix}{n.date}</time>{n.summary&&<p>{n.summary}</p>}</div><span class="news-read-link">{strings.readMore}</span></a>)}</div></section>
+ <nav class="news-pagination" aria-label={strings.paginationAria}>{page.url.prev&&<a href={page.url.prev}>{strings.prevPage}</a>}{Array.from({length:page.lastPage},(_,i)=>i+1).map(i=>i===page.currentPage?<span aria-current="page">{i}</span>:<a href={pageHref(i)} aria-label={strings.pageAria(i)}>{i}</a>)}{page.url.next&&<a href={page.url.next}>{strings.nextPage}</a>}</nav>
+</section>
+<style>
+.newsroom{padding-top:64px;padding-bottom:80px}.news-section-heading{display:flex;align-items:baseline;justify-content:space-between;gap:20px;margin-bottom:30px}.news-section-heading h2{font-size:28px;font-weight:400;color:#243c31;margin:0}.news-section-heading>span{font-size:12px;color:#7a8780;letter-spacing:.08em}.news-highlights{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px}.news-highlight{display:flex;flex-direction:column;background:#f3f6f3;color:inherit}.news-highlight-image{aspect-ratio:16/10;overflow:hidden}.news-highlight-image img{width:100%;height:100%;object-fit:cover;transition:transform .45s}.news-highlight:hover img{transform:scale(1.035)}.news-highlight-copy{padding:26px 28px 28px;flex:1;display:flex;flex-direction:column}.news-highlight time{font-size:12px;letter-spacing:.06em;color:#7a8780}.news-highlight h3{font-size:20px;font-weight:500;line-height:1.7;margin:14px 0;color:#263e32}.news-highlight p{font-size:14px;line-height:1.9;color:#647168;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin:0 0 26px}.news-highlight-copy>span{font-size:13px;color:#247d55;margin-top:auto}.news-highlight:hover h3,.news-text-list>a:hover h3{color:#218457}.news-text-section{margin-top:68px}.news-text-list{border-top:1px solid #dbe3dd}.news-text-list>a{display:grid;grid-template-columns:minmax(0,1fr) 80px;gap:35px;align-items:center;padding:30px 8px;border-bottom:1px solid #e3e9e4;color:inherit;transition:background .2s}.news-text-list>a:hover{background:#f7f9f6}.news-text-list time{display:block;font-size:13px;color:#7a8780;line-height:1.6;margin-top:9px;font-variant-numeric:tabular-nums}.news-text-list h3{font-size:19px;line-height:1.8;font-weight:400;color:#293e32;margin:0}.news-text-list p{font-size:14px;line-height:1.8;color:#7a8780;margin:9px 0 0;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}.news-read-link{font-size:12px;color:#54715d;text-align:right}.news-pagination{margin-top:42px;display:flex;gap:10px;justify-content:center}.news-pagination>a,.news-pagination>span{display:inline-flex;align-items:center;justify-content:center;min-width:40px;height:40px;padding:0 12px;border:1px solid #dce5de;font-size:14px}.news-pagination>[aria-current=page]{background:#258258;color:white;border-color:#258258}
+@media(max-width:800px){.news-highlights{grid-template-columns:1fr;gap:25px}.newsroom{padding-top:40px}.news-highlight-copy{padding:22px}.news-text-list>a{grid-template-columns:minmax(0,1fr);gap:18px}.news-read-link{display:none}.news-text-list h3{font-size:17px}.news-pagination{gap:5px;flex-wrap:wrap}.news-section-heading h2{font-size:24px}.news-text-section{margin-top:42px}}
+</style>
+</Layout>

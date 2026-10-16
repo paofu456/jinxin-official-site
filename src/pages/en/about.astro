@@ -1,0 +1,9 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CorporateRecord from '../../components/records/CorporateRecord.astro';
+import archiveEn from '../../data/archive-en.json';
+import { getCompany } from '../../i18n/ui';
+const company=getCompany('en');
+const page=archiveEn.find(p=>p.path==='/page/gsjs.html')!;
+---
+<Layout title="About GSIN | GSIN" description={company.description} showInquiry={false} lang="en"><CorporateRecord page={page} lang="en"/></Layout>

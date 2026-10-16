@@ -4,7 +4,9 @@ import { walkFiles } from "./shared.mjs";
 
 const markers = [
   ["starter company name", /Northstar Industrial/i],
-  ["demonstration copy", /\bdemonstration\b/i],
+  // "示范项目/示范工地" legitimately translates to "demonstration project/site" in industry copy;
+  // this marker targets leftover starter-placeholder usage only (e.g. "demonstration copy").
+  ["demonstration copy", /\bdemonstration\s+(?:copy|content|text|page)\b/i],
   ["placeholder copy", /\b(?:lorem ipsum|placeholder|replace this|starter content|demo content)\b/i],
 ];
 

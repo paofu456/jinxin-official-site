@@ -1,11 +1,14 @@
 ---
-import archive from '../../data/archive.json';
-import news from '../../data/news-catalog.json';
-interface Props { page: typeof archive[number]; }
-const {page}=Astro.props;
+import { getNewsCatalog, localizeArchiveHtml } from '../../lib/catalog';
+import { t, toLocalePath, type Locale } from '../../i18n/ui';
+interface Props { page: {path:string;title:string}; lang?: Locale; }
+const {page, lang='zh'}=Astro.props;
+const strings=t(lang).news;
+const news=getNewsCatalog();
 const item=news.find(n=>n.path===page.path);
-const bodyHtml=(item?.bodyHtml||page.html).replace(/<p class="news-source-note">[\s\S]*?<\/p>/g,'');
+const bodyHtml=localizeArchiveHtml((item?.bodyHtml||('html' in page?page.html as string:'')).replace(/<p class="news-source-note">[\s\S]*?<\/p>/g,''),lang);
 const related=news.filter(n=>n.path!==page.path).slice(0,3);
+const relatedHref=(path:string)=>lang==='en'?'/en'+path:path;
 ---
-<section class="record-heading wrap news-record-heading"><nav class="breadcrumbs" aria-label="当前位置"><a href="/">首页</a><span>/</span><a href="/news/">新闻中心</a></nav><p class="eyebrow">企业动态与工程进展</p><h1>{page.title}</h1>{item?.date&&<time datetime={item.date}>{item.date}</time>}</section>
-<div class="wrap news-reading-layout"><article class="archive-content news news-record-body" set:html={bodyHtml}/><aside><p class="eyebrow">更多动态</p>{related.map(n=><a href={n.path}><time>{n.date}</time><h2>{n.title}</h2></a>)}<a class="text-link" href="/news/">全部新闻</a></aside></div>
+<section class="record-heading wrap news-record-heading"><nav class="breadcrumbs" aria-label={t(lang).breadcrumb.aria}><a href={toLocalePath(lang,'/')}>{t(lang).breadcrumb.home}</a><span>/</span><a href={toLocalePath(lang,'/news/')}>{strings.breadcrumbSection}</a></nav><p class="eyebrow">{strings.recordEyebrow}</p><h1>{page.title}</h1>{item?.date&&<time datetime={item.date}>{item.date}</time>}</section>
+<div class="wrap news-reading-layout"><article class="archive-content news news-record-body" set:html={bodyHtml}/><aside><p class="eyebrow">{strings.moreNews}</p>{related.map(n=><a href={relatedHref(n.path)}><time>{n.date}</time><h2>{n.title}</h2></a>)}<a class="text-link" href={toLocalePath(lang,'/news/')}>{strings.allNews}</a></aside></div>

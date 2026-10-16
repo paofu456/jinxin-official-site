@@ -9,7 +9,7 @@ const cleanRoutes = {
     "astro:build:done": async ({ dir, pages }) => {
       for (const { pathname } of pages) {
         const route = pathname.replace(/^\/+|\/+$/g, "");
-        if (!route || route === "404" || route === "500" || /^(article|page|download)\//.test(route)) continue;
+        if (!route || route === "404" || route === "500" || /^(en\/)?(article|page|download)\//.test(route)) continue;
         const folder = new URL(`${route}/`, dir);
         await mkdir(folder, { recursive: true });
         await rename(new URL(`${route}.html`, dir), new URL("index.html", folder));

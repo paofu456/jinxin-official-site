@@ -1,19 +1,25 @@
 ---
-import data from '../data/corporate-presentation.json';
+import dataZh from '../data/corporate-presentation.json';
+import dataEn from '../data/corporate-presentation-en.json';
+import { t, type Locale } from '../i18n/ui';
+interface Props { lang?: Locale; }
+const {lang='zh'}=Astro.props;
+const strings=t(lang).history;
+const data=lang==='en'?dataEn:dataZh;
 const step=300;
 const width=data.history.length*step;
 const points=data.history.map((_,i)=>`${i*step+145},${i%2?310:235}`).join(' ');
 const years=[...new Set(data.history.map(item=>item.date.split('.')[0]))];
 ---
 <section class="wrap company-history" data-history>
- <div class="history-chart-heading"><div><p>GSIN · 1998 — {years.at(-1)}</p><h2>每一步，都是新的起点</h2></div><label>年份定位<select aria-label="定位发展年份">{years.map(year=><option value={data.history.findIndex(item=>item.date.split('.')[0]===year)}>{year}</option>)}</select></label></div>
- <div class="history-chart-window" tabindex="0" role="region" aria-label="企业发展历程图表，可使用左右方向键浏览">
+ <div class="history-chart-heading"><div><p>GSIN · 1998 — {years.at(-1)}</p><h2>{strings.heading}</h2></div><label>{strings.yearLabel}<select aria-label={strings.yearAria}>{years.map(year=><option value={data.history.findIndex(item=>item.date.split('.')[0]===year)}>{year}</option>)}</select></label></div>
+ <div class="history-chart-window" tabindex="0" role="region" aria-label={strings.regionAria}>
   <div class="history-chart-track" style={`width:${width}px`}>
    <svg width={width} height="530" viewBox={`0 0 ${width} 530`} aria-hidden="true"><polyline points={points} fill="none" stroke="#9bbdaa" stroke-width="2"/>{data.history.map((_,i)=><circle cx={i*step+145} cy={i%2?310:235} r="7" fill="#fff" stroke="#32b372" stroke-width="3"/>)}</svg>
    <ol>{data.history.map((item,i)=><li class:list={['history-chart-event',{'is-below':i%2===1}]} style={`left:${i*step+20}px`}><time>{item.date}</time><p>{item.text}</p></li>)}</ol>
   </div>
  </div>
- <div class="history-chart-controls"><p>横向滚动，回看金鑫的发展足迹</p><div><button type="button" data-history-prev aria-label="查看更早的发展历程" disabled><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg></button><span data-history-position aria-live="polite"></span><button type="button" data-history-next aria-label="查看后续发展历程"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m10 6 6 6-6 6"/></svg></button></div></div>
+ <div class="history-chart-controls"><p>{strings.scrollHint}</p><div><button type="button" data-history-prev aria-label={strings.prevAria} disabled><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg></button><span data-history-position aria-live="polite"></span><button type="button" data-history-next aria-label={strings.nextAria}><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m10 6 6 6-6 6"/></svg></button></div></div>
 </section>
 <script>
 const history=document.querySelector<HTMLElement>('[data-history]');

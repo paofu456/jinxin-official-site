@@ -1,0 +1,10 @@
+---
+import archive from '../../data/archive.json';
+import ArchivePage from '../../components/pages/ArchivePage.astro';
+// Every Chinese archive route also exists under /en/ — translated pages render
+// English content (archive-en.json), the rest keep Chinese content in the English frame.
+export function getStaticPaths(){return archive.map(page=>({params:{path:page.path.slice(1).replace(/\.html$/,'')},props:{page}}));}
+interface Props {page:typeof archive[number];}
+const {page}=Astro.props;
+---
+<ArchivePage page={page} lang="en"/>

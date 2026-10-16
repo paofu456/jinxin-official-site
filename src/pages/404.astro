@@ -2,22 +2,24 @@
 import Button from "../components/ui/Button.astro";
 import Container from "../components/ui/Container.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { makePageTitle } from "../lib/seo";
 ---
 
 <BaseLayout
-  title={makePageTitle("页面未找到")}
-  description="您访问的页面不存在或已被移动，可以返回首页，或浏览钢结构业务与工程案例。"
+  title="页面未找到 | Page Not Found"
+  description="您访问的页面不存在或已被移动。The page you visited does not exist or has been moved."
   noindex={true}
+  alternate="/en/"
 >
   <section class="py-28 sm:py-40">
     <Container class="text-center">
       <p class="text-8xl font-extrabold text-[var(--color-primary)] sm:text-9xl">404</p>
       <h1 class="mt-6 text-4xl font-extrabold sm:text-6xl">您访问的页面不存在</h1>
       <p class="mx-auto mt-5 max-w-xl text-lg text-[var(--color-muted)]">链接可能已变更，或该页面已经不存在。</p>
+      <h2 class="mt-10 text-2xl font-bold sm:text-3xl">The page you visited does not exist</h2>
+      <p class="mx-auto mt-4 max-w-xl text-lg text-[var(--color-muted)]">The link may have changed, or the page no longer exists.</p>
       <div class="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
         <Button href="/">返回首页</Button>
-        <Button href="/projects/" variant="secondary">浏览工程案例</Button>
+        <Button href="/en/" variant="secondary">English Home</Button>
       </div>
     </Container>
   </section>

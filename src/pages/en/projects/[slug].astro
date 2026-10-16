@@ -1,0 +1,19 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import Layout from '../../../layouts/Layout.astro';
+import ProjectDetail from '../../../components/project/ProjectDetail.astro';
+import { getProjectCatalog } from '../../../lib/catalog';
+import { getPublishedProjects } from '../../../lib/projects';
+import { t } from '../../../i18n/ui';
+export async function getStaticPaths(){return (await getPublishedProjects('en')).map(project=>({params:{slug:project.data.slug},props:{project}}));}
+interface Props { project: CollectionEntry<'projects'>; }
+const {project}=Astro.props;
+const strings=t('en').project;
+const catalog=getProjectCatalog('en');
+const full=catalog.find(p=>p.slug===project.data.slug);
+if(!full)throw new Error(`Missing complete English project record: ${project.data.slug}`);
+const {Content}=await render(project);
+---
+<Layout title={project.data.seo.title} description={project.data.seo.description} image={full.images[0]?.src} showInquiry={false} lang="en">
+<ProjectDetail project={full} lang="en"><details class="supplementary-record"><summary>{strings.supplementary}</summary><article class="prose-site"><Content/></article><dl class="parameter-list">{project.data.specifications.map(s=><div><dt>{s.label}</dt><dd>{s.value}</dd></div>)}</dl></details></ProjectDetail>
+</Layout>

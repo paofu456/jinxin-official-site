@@ -1,0 +1,10 @@
+---
+import body from '../../data/original-home-en.html?raw';
+import SeoHead from '../../components/SeoHead.astro';
+import { getCompany } from '../../i18n/ui';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+const [beforeFooter,afterFooter]=body.split('<!-- SITE_FOOTER -->');
+const company=getCompany('en');
+---
+<!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><SeoHead title="GSIN | Steel Structure & Prefabricated Construction" description={company.description} lang="en"/><link rel="stylesheet" href="/replica/skin/jx/css/reset.css"/><link rel="stylesheet" href="/replica/skin/jx/css/fullpage.min.css"/><link rel="stylesheet" href="/replica/skin/jx/css/style.css"/><link rel="stylesheet" href="/replica/home.css"/><script is:inline src="/replica/skin/jx/js/jquery.min.js"></script></head><body><SiteHeader home lang="en"/><Fragment set:html={beforeFooter}/><SiteFooter lang="en"/><Fragment set:html={afterFooter}/><script is:inline src="/replica/skin/jx/js/fullpage.min.js"></script><script is:inline src="/replica/skin/jx/js/jquery.flexslider.js"></script><script is:inline src="/replica/skin/jx/js/jquery.counterup.js"></script><script is:inline src="/replica/skin/jx/js/main.js"></script><script is:inline src="/replica/home.js"></script></body></html>

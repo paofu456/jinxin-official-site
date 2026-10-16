@@ -1,14 +1,19 @@
 ---
-import company from '../data/company.json';
-import {siteConfig} from '../../site.config';
+import { siteConfig } from '../../site.config';
+import { getCompany, t, toLocalePath, type Locale } from '../i18n/ui';
+interface Props { lang?: Locale; }
+const {lang='zh'}=Astro.props;
+const company=getCompany(lang);
+const strings=t(lang);
+const navigation=lang==='en'?siteConfig.navigationEn:siteConfig.navigation;
 ---
 <footer class="gsin-footer" data-site-footer>
- <div class="gsin-footer-top"><nav class="gsin-footer-inner" aria-label="页脚导航">{siteConfig.navigation.map(item=><a href={item.href}>{item.label}</a>)}</nav></div>
+ <div class="gsin-footer-top"><nav class="gsin-footer-inner" aria-label={strings.footer.navAria}>{navigation.map(item=><a href={item.href}>{item.label}</a>)}</nav></div>
  <div class="gsin-footer-inner gsin-footer-bottom">
-  <a class="gsin-footer-logo" href="/" aria-label={`${company.shortName}首页`}><img src="/media/aa610ace6fdd23b1.png" alt="GSIN 金鑫绿建" width="136" height="40"/></a>
+  <a class="gsin-footer-logo" href={toLocalePath(lang,'/')} aria-label={strings.header.logoAria}><img src="/media/aa610ace6fdd23b1.png" alt="GSIN 金鑫绿建" width="136" height="40"/></a>
   <div class="gsin-footer-records"><p>{company.name}</p><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">粤ICP备19013304号</a><a class="gsin-police-record" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44030702002504" target="_blank" rel="noopener"><img src="/media/036c90178b252dcc.png" alt="" aria-hidden="true" width="20" height="20"/>粤公网安备44030702002504号</a></div>
-  <img class="gsin-footer-qr" src="/media/39ce2f1bfebb3469.png" alt="金鑫绿建公众号二维码" width="88" height="88" loading="lazy"/>
-  <div class="gsin-footer-contact"><p>全国热线</p><a class="gsin-footer-phone" href={'tel:'+company.phone}>{company.phone}</a><a href={'mailto:'+company.email}>{company.email}</a><p>{company.address}</p></div>
+  <img class="gsin-footer-qr" src="/media/39ce2f1bfebb3469.png" alt={strings.footer.qrAlt} width="88" height="88" loading="lazy"/>
+  <div class="gsin-footer-contact"><p>{strings.footer.hotline}</p><a class="gsin-footer-phone" href={'tel:'+company.phone}>{company.phone}</a><a href={'mailto:'+company.email}>{company.email}</a><p>{company.address}</p></div>
  </div>
 </footer>
 <style>

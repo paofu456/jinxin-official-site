@@ -1,14 +1,16 @@
 ---
 import { siteConfig } from "../../site.config";
+import { localeMeta, type Locale } from "../i18n/ui";
 
 interface Props {
   title: string;
   description: string;
   image?: string;
   noindex?: boolean;
+  lang?: Locale;
 }
 
-const { title, description, image, noindex = false } = Astro.props;
+const { title, description, image, noindex = false, lang = "zh" } = Astro.props;
 const shouldIndex = siteConfig.siteMode === "production" && !noindex;
 const canonical = siteConfig.siteUrl ? new URL(Astro.url.pathname, siteConfig.siteUrl).toString() : undefined;
 const socialImage = image && siteConfig.siteUrl ? new URL(image, siteConfig.siteUrl).toString() : undefined;
@@ -19,7 +21,7 @@ const socialImage = image && siteConfig.siteUrl ? new URL(image, siteConfig.site
 <meta name="robots" content={shouldIndex ? "index,follow" : "noindex,nofollow"} />
 {canonical && <link rel="canonical" href={canonical} />}
 <meta property="og:type" content="website" />
-<meta property="og:locale" content={siteConfig.locale} />
+<meta property="og:locale" content={localeMeta[lang].ogLocale} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 {canonical && <meta property="og:url" content={canonical} />}

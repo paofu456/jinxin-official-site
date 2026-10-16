@@ -1,0 +1,40 @@
+---
+import { render, type CollectionEntry } from "astro:content";
+import ProductGallery from "../product/ProductGallery.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getProjectCatalog } from "../../lib/catalog";
+import {business} from "../../data/business";
+import { t, toLocalePath, type Locale } from "../../i18n/ui";
+
+interface Props {
+  product: CollectionEntry<"products"> | CollectionEntry<"productsEn">;
+  lang?: Locale;
+}
+
+const { product, lang = "zh" } = Astro.props;
+const strings = t(lang).product;
+const { Content } = await render(product);
+const item = business.find((b) => b.slug === product.data.slug);
+const category = lang === "en" ? item?.en.category : item?.category;
+const catalog = getProjectCatalog(lang);
+const related = catalog.filter((p) => p.categories.includes(category || ""));
+const detailedPages: Record<string, string> = {
+  'super-high-rise-steel-building': '/article/gjg.html',
+  'long-span-space-steel-building': '/article/mkhgjg.html',
+  'prefabricated-steel-building': '/article/zpsjz.html',
+  'steel-urban-facility': '/article/zpsgjgcsyycp.html',
+  'steel-villa-house': '/article/gjgxcbscp.html',
+};
+const detailHref = lang === 'en' ? `/en/projects/?category=${encodeURIComponent(category || t('en').catalog.allCategory)}` : detailedPages[product.data.slug];
+---
+
+<BaseLayout
+  title={product.data.seo.title}
+  description={product.data.seo.description}
+  image={product.data.images[0].src}
+  lang={lang}
+>
+  <section class="wrap business-detail-head"><nav class="breadcrumbs" aria-label={t(lang).breadcrumb.aria}><a href={toLocalePath(lang,'/')}>{t(lang).breadcrumb.home}</a><span>/</span><a href={toLocalePath(lang,'/projects/')}>{strings.breadcrumbSection}</a><span>/</span><span>{product.data.title}</span></nav><div class="business-detail-grid"><ProductGallery images={product.data.images} lang={lang}/><div><h1>{product.data.title}</h1><p>{product.data.summary}</p><a class="button green" href={toLocalePath(lang,'/contact/')}>{strings.consultCta}</a></div></div></section>
+  <section class="wrap business-detail-body"><article class="prose-site"><Content/><p><a class="text-link" href={detailHref}>{strings.detailLink}</a></p></article><aside><h2>{strings.infoHeading}</h2><dl class="parameter-list">{product.data.specifications.map(s=><div><dt>{s.label}</dt><dd>{s.value}</dd></div>)}</dl></aside></section>
+  <section class="wrap business-case-entry"><div><h2>{strings.casesHeading}</h2><p>{strings.casesText(related.length)}</p></div><a href={`${toLocalePath(lang,'/projects/')}?category=${encodeURIComponent(category||t(lang).catalog.allCategory)}`}>{strings.casesLink(category||'')}</a></section>
+</BaseLayout>

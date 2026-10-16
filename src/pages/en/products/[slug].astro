@@ -1,0 +1,16 @@
+---
+import ProductDetailPage from "../../../components/pages/ProductDetailPage.astro";
+import { getPublishedProducts } from "../../../lib/products";
+
+export async function getStaticPaths() {
+  const products = await getPublishedProducts("en");
+  return products.map((product) => ({
+    params: { slug: product.data.slug },
+    props: { product },
+  }));
+}
+
+const { product } = Astro.props;
+---
+
+<ProductDetailPage product={product} lang="en"/>

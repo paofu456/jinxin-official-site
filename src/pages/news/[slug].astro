@@ -43,6 +43,7 @@ const originalPage = archive.find(page => page.path === original?.path);
   title={makePageTitle(display)}
   description={item.data.summary || `${display}——深圳金鑫绿建股份有限公司新闻中心发布的企业动态。`}
   image={item.data.image?.src}
+  alternate="/en/news/"
 >
   {originalPage ? <NewsRecord page={originalPage}/> : <>
   <section class="record-heading wrap news-record-heading"><nav class="breadcrumbs" aria-label="当前位置"><a href="/">首页</a><span>/</span><a href="/news/">新闻中心</a></nav><p class="eyebrow">{label}</p><h1>{display}</h1><time datetime={item.data.date}>{formatNewsDate(item.data.date)}</time></section>

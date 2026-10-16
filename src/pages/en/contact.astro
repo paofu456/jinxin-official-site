@@ -1,0 +1,9 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CompanyContact from '../../components/CompanyContact.astro';
+import { getCompany } from '../../i18n/ui';
+const company=getCompany('en');
+---
+<Layout title="Contact Us | GSIN" description={`Contact ${company.name} by phone ${company.phone}, email ${company.email} or visit us at ${company.address} for steel structure and prefabricated construction projects.`} showInquiry={false} lang="en">
+<CompanyContact lang="en"/>
+</Layout>

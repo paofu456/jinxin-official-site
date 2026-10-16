@@ -1,0 +1,110 @@
+[
+  {
+    "path": "/page/gsjs.html",
+    "title": "Company Profile",
+    "kind": "listing",
+    "source": "en",
+    "text": "GSIN company profile, engineering practice and R&D achievements.",
+    "submenu": [
+      { "label": "Company Profile", "href": "/en/about/" },
+      { "label": "Development Path", "href": "/en/page/fzlc.html" },
+      { "label": "Honor", "href": "/en/article/gsry.html" },
+      { "label": "Certifications", "href": "/en/article/zzzs.html" },
+      { "label": "Contact Us", "href": "/en/contact/" }
+    ],
+    "html": ""
+  },
+  {
+    "path": "/page/fzlc.html",
+    "title": "Development Path",
+    "kind": "listing",
+    "source": "en",
+    "text": "Started from fabrication and installation — every step of GSIN's development.",
+    "submenu": [
+      { "label": "Company Profile", "href": "/en/about/" },
+      { "label": "Development Path", "href": "/en/page/fzlc.html" },
+      { "label": "Honor", "href": "/en/article/gsry.html" },
+      { "label": "Certifications", "href": "/en/article/zzzs.html" },
+      { "label": "Contact Us", "href": "/en/contact/" }
+    ],
+    "html": ""
+  },
+  {
+    "path": "/page/zpsgjgqbjztx.html",
+    "title": "Assembled Steel Structure Light Panel Building System",
+    "kind": "listing",
+    "source": "en",
+    "text": "From the main structure to the cladding system — GSIN's complete prefabricated building technology.",
+    "submenu": [
+      { "label": "Assembled Steel Structure Light Panel Building System", "href": "/en/page/zpsgjgqbjztx.html" },
+      { "label": "Technology Patents", "href": "/en/download/jszl.html" }
+    ],
+    "html": ""
+  },
+  {
+    "path": "/article/gsry.html",
+    "title": "Honor",
+    "kind": "listing",
+    "source": "en",
+    "text": "GSIN company honors and project awards.",
+    "submenu": [
+      { "label": "Company Profile", "href": "/en/about/" },
+      { "label": "Development Path", "href": "/en/page/fzlc.html" },
+      { "label": "Honor", "href": "/en/article/gsry.html" },
+      { "label": "Certifications", "href": "/en/article/zzzs.html" },
+      { "label": "Contact Us", "href": "/en/contact/" }
+    ],
+    "html": ""
+  },
+  {
+    "path": "/article/zzzs.html",
+    "title": "Certifications",
+    "kind": "listing",
+    "source": "en",
+    "text": "GSIN qualifications and certification documents.",
+    "submenu": [
+      { "label": "Company Profile", "href": "/en/about/" },
+      { "label": "Development Path", "href": "/en/page/fzlc.html" },
+      { "label": "Honor", "href": "/en/article/gsry.html" },
+      { "label": "Certifications", "href": "/en/article/zzzs.html" },
+      { "label": "Contact Us", "href": "/en/contact/" }
+    ],
+    "html": ""
+  },
+  {
+    "path": "/download/jszl.html",
+    "title": "Technology Patents",
+    "kind": "listing",
+    "source": "en",
+    "text": "GSIN technology patents around steel structures and prefabricated construction.",
+    "submenu": [
+      { "label": "Assembled Steel Structure Light Panel Building System", "href": "/en/page/zpsgjgqbjztx.html" },
+      { "label": "Technology Patents", "href": "/en/download/jszl.html" }
+    ],
+    "html": "<div class=\"section sec-patent\">\n<div class=\"container\">\n<div class=\"patent-list clearfix\">\n<div class=\"patent-item clearfix\">\n<div class=\"m-tit\">\n        Title</div>\n<div class=\"m-time\">\n        Date</div>\n</div>\n<div class=\"patent-item clearfix\">\n<div class=\"m-tit\">An ALC panel window lintel drip member (Utility Model: ZL201721801804.7)</div>\n<div class=\"m-time\">2017.12.21</div>\n</div>\n<div class=\"patent-item clearfix\">\n<div class=\"m-tit\">An autoclaved lightweight aerated concrete integral exterior wall panel (Utility Model: ZL201721577791.X)</div>\n<div class=\"m-time\">2017.11.21</div>\n</div>\n<div class=\"patent-item clearfix\">\n<div class=\"m-tit\">A self-waterproof aluminum alloy window frame with flashing edge (Utility Model: ZL201721539333.7)</div>\n<div class=\"m-time\">2017.11.17</div>\n</div>\n<div class=\"patent-item clearfix\">\n<div class=\"m-tit\">A lightweight aerated concrete integrated wall panel with window (Utility Model: ZL201721577759.1)</div>\n<div class=\"m-time\">2017.11.21</div>\n</div>\n<div class=\"patent-item clearfix\">\n<div class=\"m-tit\">A box-type modular building and its construction method (Invention: ZL201610232102.5)</div>\n<div class=\"m-time\">2016.04.14</div>\n</div>\n<div class=\"patent-item clearfix\">\n<div class=\"m-tit\">Dust removal equipment for an intersecting-line cutting machine (Utility Model: ZL201720806388.3)</div>\n<div class=\"m-time\">2017.07.05</div>\n</div>\n<div class=\"patent-item clearfix\">\n<div class=\"m-tit\">A diameter inspection tool for large-size steel pipes (Utility Model: ZL201720805862.0)</div>\n<div class=\"m-time\">2017.07.05</div>\n</div>\n<div class=\"patent-item clearfix\">\n<div class=\"m-tit\">An installation structure for building box modular units (Utility Model: ZL201620207712.5)</div>\n<div class=\"m-time\">2016.03.18</div>\n</div>\n<div class=\"patent-item clearfix\">\n<div class=\"m-tit\">A building box modular unit (Utility Model: ZL201620207711.0)</div>\n<div class=\"m-time\">2016.03.18</div>\n</div>\n<div class=\"patent-item clearfix\">\n<div class=\"m-tit\">An environmentally friendly energy-saving thermal insulation block (Invention: ZL200710190528.X)</div>\n<div class=\"m-time\">2007.11.30</div>\n</div>\n<div class=\"patent-item clearfix\">\n<div class=\"m-tit\">An adjustable assembly jig (Utility Model: ZL201420544393.8)</div>\n<div class=\"m-time\">2014.09.19</div>\n</div>\n<div class=\"patent-item clearfix\">\n<div class=\"m-tit\">A two-way mixed cross steel-bar truss self-supporting hollow slab (Utility Model: ZL201420541058.2)</div>\n<div class=\"m-time\">2014.09.19</div>\n</div>\n<div class=\"patent-item clearfix\">\n<div class=\"m-tit\">A two-way mixed cross steel-bar truss self-supporting floor deck (Utility Model: ZL201420543996.6)</div>\n<div class=\"m-time\">2014.09.19</div>\n</div>\n<div class=\"patent-item clearfix\">\n<div class=\"m-tit\">An inner-sleeve concrete-filled steel tubular beam-column joint (Utility Model: ZL201420470409.5)</div>\n<div class=\"m-time\">2014.08.19</div>\n</div>\n</div>\n<div class=\"pagination\">\n<a class=\"on\">1</a><a class=\"\" href=\"/en/download/jszl/p2.html\">2</a><a class=\"page-next\" href=\"/en/download/jszl/p2.html\">Next</a>\n</div>\n</div>\n</div>"
+  },
+  {
+    "path": "/download/jszl/p1.html",
+    "title": "Technology Patents",
+    "kind": "listing",
+    "source": "en",
+    "text": "GSIN technology patents around steel structures and prefabricated construction.",
+    "submenu": [
+      { "label": "Assembled Steel Structure Light Panel Building System", "href": "/en/page/zpsgjgqbjztx.html" },
+      { "label": "Technology Patents", "href": "/en/download/jszl.html" }
+    ],
+    "html": "<div class=\"section sec-patent\">\n<div class=\"container\">\n<div class=\"patent-list clearfix\">\n<div class=\"patent-item clearfix\">\n<div class=\"m-tit\">\n        Title</div>\n<div class=\"m-time\">\n        Date</div>\n</div>\n<div class=\"patent-item clearfix\">\n<div class=\"m-tit\">An ALC panel window lintel drip member (Utility Model: ZL201721801804.7)</div>\n<div class=\"m-time\">2017.12.21</div>\n</div>\n<div class=\"patent-item clearfix\">\n<div class=\"m-tit\">An autoclaved lightweight aerated concrete integral exterior wall panel (Utility Model: ZL201721577791.X)</div>\n<div class=\"m-time\">2017.11.21</div>\n</div>\n<div class=\"patent-item clearfix\">\n<div class=\"m-tit\">A self-waterproof aluminum alloy window frame with flashing edge (Utility Model: ZL201721539333.7)</div>\n<div class=\"m-time\">2017.11.17</div>\n</div>\n<div class=\"patent-item clearfix\">\n<div class=\"m-tit\">A lightweight aerated concrete integrated wall panel with window (Utility Model: ZL201721577759.1)</div>\n<div class=\"m-time\">2017.11.21</div>\n</div>\n<div class=\"patent-item clearfix\">\n<div class=\"m-tit\">A box-type modular building and its construction method (Invention: ZL201610232102.5)</div>\n<div class=\"m-time\">2016.04.14</div>\n</div>\n<div class=\"patent-item clearfix\">\n<div class=\"m-tit\">Dust removal equipment for an intersecting-line cutting machine (Utility Model: ZL201720806388.3)</div>\n<div class=\"m-time\">2017.07.05</div>\n</div>\n<div class=\"patent-item clearfix\">\n<div class=\"m-tit\">A diameter inspection tool for large-size steel pipes (Utility Model: ZL201720805862.0)</div>\n<div class=\"m-time\">2017.07.05</div>\n</div>\n<div class=\"patent-item clearfix\">\n<div class=\"m-tit\">An installation structure for building box modular units (Utility Model: ZL201620207712.5)</div>\n<div class=\"m-time\">2016.03.18</div>\n</div>\n<div class=\"patent-item clearfix\">\n<div class=\"m-tit\">A building box modular unit (Utility Model: ZL201620207711.0)</div>\n<div class=\"m-time\">2016.03.18</div>\n</div>\n<div class=\"patent-item clearfix\">\n<div class=\"m-tit\">An environmentally friendly energy-saving thermal insulation block (Invention: ZL200710190528.X)</div>\n<div class=\"m-time\">2007.11.30</div>\n</div>\n<div class=\"patent-item clearfix\">\n<div class=\"m-tit\">An adjustable assembly jig (Utility Model: ZL201420544393.8)</div>\n<div class=\"m-time\">2014.09.19</div>\n</div>\n<div class=\"patent-item clearfix\">\n<div class=\"m-tit\">A two-way mixed cross steel-bar truss self-supporting hollow slab (Utility Model: ZL201420541058.2)</div>\n<div class=\"m-time\">2014.09.19</div>\n</div>\n<div class=\"patent-item clearfix\">\n<div class=\"m-tit\">A two-way mixed cross steel-bar truss self-supporting floor deck (Utility Model: ZL201420543996.6)</div>\n<div class=\"m-time\">2014.09.19</div>\n</div>\n<div class=\"patent-item clearfix\">\n<div class=\"m-tit\">An inner-sleeve concrete-filled steel tubular beam-column joint (Utility Model: ZL201420470409.5)</div>\n<div class=\"m-time\">2014.08.19</div>\n</div>\n</div>\n<div class=\"pagination\">\n<a class=\"on\">1</a><a class=\"\" href=\"/en/download/jszl/p2.html\">2</a><a class=\"page-next\" href=\"/en/download/jszl/p2.html\">Next</a>\n</div>\n</div>\n</div>"
+  },
+  {
+    "path": "/download/jszl/p2.html",
+    "title": "Technology Patents",
+    "kind": "listing",
+    "source": "en",
+    "text": "GSIN technology patents around steel structures and prefabricated construction.",
+    "submenu": [
+      { "label": "Assembled Steel Structure Light Panel Building System", "href": "/en/page/zpsgjgqbjztx.html" },
+      { "label": "Technology Patents", "href": "/en/download/jszl.html" }
+    ],
+    "html": "<div class=\"section sec-patent\">\n<div class=\"container\">\n<div class=\"patent-list clearfix\">\n<div class=\"patent-item clearfix\">\n<div class=\"m-tit\">\n        Title</div>\n<div class=\"m-time\">\n        Date</div>\n</div>\n<div class=\"patent-item clearfix\">\n<div class=\"m-tit\">A universal measuring ruler and a construction method for assembling pipe truss corbels (Invention: ZL201410292972.2)</div>\n<div class=\"m-time\">2014.06.24</div>\n</div>\n<div class=\"patent-item clearfix\">\n<div class=\"m-tit\">A universal measuring ruler (Utility Model: ZL201420342516.X)</div>\n<div class=\"m-time\">2014.06.24</div>\n</div>\n<div class=\"patent-item clearfix\">\n<div class=\"m-tit\">A clamp-type cantilevered net connector (Utility Model: ZL201220447016.3)</div>\n<div class=\"m-time\">2012.09.04</div>\n</div>\n<div class=\"patent-item clearfix\">\n<div class=\"m-tit\">A standard modular working platform mechanism for high-altitude construction (Utility Model: ZL201220446480.0)</div>\n<div class=\"m-time\">2012.09.04</div>\n</div>\n<div class=\"patent-item clearfix\">\n<div class=\"m-tit\">A submerged-arc welding device for straight inner seams of rolled steel pipes (Utility Model: ZL201220220238.1)</div>\n<div class=\"m-time\">2012.05.16</div>\n</div>\n</div>\n<div class=\"pagination\">\n<a class=\"page-prev\" href=\"/en/download/jszl/p1.html\">Previous</a><a class=\"\" href=\"/en/download/jszl/p1.html\">1</a><a class=\"on\">2</a>\n</div>\n</div>\n</div>"
+  }
+]
