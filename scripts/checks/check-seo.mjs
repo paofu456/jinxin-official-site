@@ -2,6 +2,10 @@ export function checkSeo(pages) {
   const errors = [];
 
   for (const page of pages) {
+    // Google's ownership file must retain its original plain-text response.
+    const verificationFile = page.url.match(/^\/(google[0-9a-f]+\.html)$/)?.[1];
+    if (verificationFile && page.html.trim() === `google-site-verification: ${verificationFile}`) continue;
+
     const title = page.html.match(/<title>([^<]+)<\/title>/i)?.[1]?.trim();
     const description = page.html.match(/<meta\s+name=["']description["']\s+content=["']([^"']+)["']/i)?.[1]?.trim();
     const headings = page.html.match(/<h1(?:\s[^>]*)?>/gi) ?? [];
