@@ -14,7 +14,7 @@ const relatedHref=(href:string)=>lang==='en'&&/^\/(article|page|download)\//.tes
 <nav class="breadcrumbs" aria-label={t(lang).breadcrumb.aria}><a href={toLocalePath(lang,'/')}>{t(lang).breadcrumb.home}</a><span>/</span><a href={toLocalePath(lang,'/projects/')}>{strings.breadcrumbSection}</a></nav>
 <p class="eyebrow">{project.categories.join(' · ')}</p><h1>{project.title}</h1><p class="detail-intro">{project.summary}</p>
 </section>
-{project.images[0]&&<figure class="project-cover wrap"><img src={project.images[0].src} alt={project.images[0].alt} fetchpriority="high"/><figcaption>{strings.coverCaption}</figcaption></figure>}
+{project.images[0]&&<figure class="project-cover wrap"><button class="catalog-zoom project-cover-zoom" type="button" aria-label={strings.zoomAria(project.title,1)}><img src={project.images[0].src} alt={project.images[0].alt} fetchpriority="high"/></button><figcaption>{strings.coverCaption}</figcaption></figure>}
 <section class="wrap project-information">
 <div><p class="eyebrow">{strings.overviewEyebrow}</p><article class="prose-site project-body" set:html={bodyHtml}/><slot/></div>
 <aside><h2>{strings.infoHeading}</h2><dl class="parameter-list"><div><dt>{strings.categoryLabel}</dt><dd>{project.categories.join(' / ')}</dd></div>{project.specifications.map(s=><div><dt>{s.label}</dt><dd>{s.value}</dd></div>)}</dl><p class="media-note">{strings.specNote}</p><a class="button green" href={toLocalePath(lang,'/contact/')}>{strings.consultCta}</a></aside>

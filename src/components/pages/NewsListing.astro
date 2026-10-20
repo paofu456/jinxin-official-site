@@ -10,8 +10,7 @@ interface Props {page:Page<NewsRecordItem>; lang?: Locale;}
 const {page, lang='zh'}=Astro.props;
 const strings=t(lang).news;
 const company=getCompany(lang);
-// News content stays Chinese in the English version; the listing links to the
-// English-framed archive pages so navigation never leaves the /en/ frame.
+// Pagination supplies the catalogue in the requested language.
 const items=page.data;
 const newsHref=(n:NewsRecordItem)=>lang==='en'?'/en'+n.path:n.path;
 const featured=page.currentPage===1?items.slice(0,3):[];

@@ -1,6 +1,7 @@
 import projectsZh from "../data/project-catalog.json";
 import projectsEnMap from "../data/project-catalog-en.json";
 import newsZh from "../data/news-catalog.json";
+import newsEnMap from "../data/news-catalog-en.json";
 import type { Locale } from "../i18n/ui";
 
 type ProjectRecord = (typeof projectsZh)[number];
@@ -25,9 +26,11 @@ export function getProjectCatalog(lang: Locale = "zh"): LocalizedProject[] {
   return projectsZh.map((p) => ({ ...p, ...(map[p.path] ?? {}) }));
 }
 
-/** News content is intentionally not internationalized — the English news listing keeps Chinese titles and links to the Chinese detail pages. */
-export function getNewsCatalog(): NewsRecordItem[] {
-  return newsZh;
+/** Localize news without changing the source dates, images, ordering or routes. */
+export function getNewsCatalog(lang: Locale = "zh"): NewsRecordItem[] {
+  if (lang === "zh") return newsZh;
+  const map = newsEnMap as Record<string, Pick<NewsRecordItem, "title" | "summary" | "bodyHtml">>;
+  return newsZh.map(n => ({ ...n, ...(map[n.path] ?? {}) }));
 }
 
 /** English URL for a catalog record: translated detail page when available, otherwise the English-framed archive page. */

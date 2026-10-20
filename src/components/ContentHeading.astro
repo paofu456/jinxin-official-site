@@ -1,13 +1,13 @@
 ---
 import { t, toLocalePath, type Locale } from '../i18n/ui';
-interface Props { title: string; description: string; image?: string; imageAlt?: string; caption?: string; eyebrow?: string; variant?: 'corporate'|'news'|'projects'|'tech'; lang?: Locale; }
-const {title,description,image,imageAlt='',eyebrow,variant='tech',lang='zh'}=Astro.props;
+interface Props { title: string; description: string; image?: string; imageAlt?: string; imagePosition?: string; caption?: string; eyebrow?: string; variant?: 'corporate'|'news'|'projects'|'tech'; lang?: Locale; }
+const {title,description,image,imageAlt='',imagePosition='center 45%',eyebrow,variant='tech',lang='zh'}=Astro.props;
 const strings=t(lang);
 const heroImage=image||(variant==='corporate'?'/media/c59278af44d3cd75.jpg':variant==='news'?'/media/0574736402e19061.jpg':'/media/bdba09e13042f80b.jpg');
 const label=eyebrow||(variant==='corporate'?'ABOUT GSIN':variant==='news'?'GSIN NEWS':variant==='projects'?'BUSINESS & PROJECTS':'TECHNOLOGY & INNOVATION');
 ---
 <section class="page-hero">
- <img src={heroImage} alt={imageAlt||title} fetchpriority="high"/>
+ <img src={heroImage} alt={imageAlt||title} style={{objectPosition:imagePosition}} fetchpriority="high"/>
  <div class="wrap page-hero-copy"><nav aria-label={strings.breadcrumb.aria}><a href={toLocalePath(lang,'/')}>{strings.breadcrumb.home}</a><span>/</span><span>{title}</span></nav><p>{label}</p><h1>{title}</h1><div class="page-hero-description">{description}</div><div class="page-hero-extra"><slot/></div></div>
 </section>
 <style>

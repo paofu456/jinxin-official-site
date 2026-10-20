@@ -3,7 +3,7 @@ import CompanyContact from '../CompanyContact.astro';
 import Layout from '../../layouts/Layout.astro';
 import archive from '../../data/archive.json';
 import archiveEn from '../../data/archive-en.json';
-import { getProjectCatalog, localizeArchiveHtml, type LocalizedProject } from '../../lib/catalog';
+import { getProjectCatalog, getNewsCatalog, localizeArchiveHtml, type LocalizedProject } from '../../lib/catalog';
 import ProjectDetail from '../project/ProjectDetail.astro';
 import CorporateRecord from '../records/CorporateRecord.astro';
 import NewsRecord from '../records/NewsRecord.astro';
@@ -12,10 +12,13 @@ interface Props {page:typeof archive[number]; lang?: Locale;}
 const {page, lang='zh'}=Astro.props;
 const company=getCompany(lang);
 const strings=t(lang).archive;
+// Later entries also localize legacy paginated listing URLs.
 const override=lang==='en'?archiveEn.find(p=>p.path===page.path):undefined;
-const untranslated=lang==='en'&&!override;
-const record=override??page;
 const project:LocalizedProject|undefined=getProjectCatalog(lang).find(p=>p.path===page.path);
+const news=getNewsCatalog(lang).find(p=>p.path===page.path);
+const localized=project??news;
+const untranslated=lang==='en'&&!override&&!localized;
+const record=lang==='en'&&localized?{...page,title:localized.title,text:localized.summary,html:localized.bodyHtml}:override??page;
 const corporate=['/page/gsjs.html','/page/fzlc.html','/page/zpsgjgqbjztx.html'].includes(page.path)||/^\/(article\/(zzzs|gsry)|download\/jszl)(\/|\.html)/.test(page.path);
 const isContact=page.path==='/page/lxwm.html';
 const category=page.kind==='project'?strings.projectCategory:page.kind==='news'?strings.newsCategory:page.path.includes('jszl')||page.path.includes('zpsgjgqbjztx')?strings.techCategory:page.submenu.some(p=>p.label==='公司介绍'||p.label==='Company Profile')?strings.aboutCategory:record.title;
