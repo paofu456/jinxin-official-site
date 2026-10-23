@@ -12,9 +12,16 @@ export function mountInquiryForm(form: HTMLFormElement): void {
   let busy = false;
   let previousContent = '';
   let submissionId = '';
-  const report = (message: string, state: string) => {
+  const report = (message: string, state: string, notify = true) => {
     status.textContent = message;
     status.dataset.state = state;
+    status.hidden = !message;
+    form.dataset.state = state;
+    if (notify && (state === 'success' || state === 'error')) {
+      status.setAttribute('tabindex', '-1');
+      status.focus({ preventScroll: true });
+      status.scrollIntoView({ block: 'nearest', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+    }
   };
   let configured = false;
   try {
@@ -78,7 +85,7 @@ export function mountInquiryForm(form: HTMLFormElement): void {
 
   if (!configured) {
     button.disabled = true;
-    report(messages.unavailable, 'error');
+    report(messages.unavailable, 'error', false);
     return;
   }
   button.disabled = false;
