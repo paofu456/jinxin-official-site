@@ -7,6 +7,7 @@ dist/
 .env
 .env.*
 !.env.example
+!.env.production
 
 # Raw source materials are private by default.
 materials/*

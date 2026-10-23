@@ -12,7 +12,18 @@ interface Props {
 
 const { title, description, image, noindex = false, lang = "zh" } = Astro.props;
 const shouldIndex = siteConfig.siteMode === "production" && !noindex;
-const canonical = siteConfig.siteUrl ? new URL(Astro.url.pathname, siteConfig.siteUrl).toString() : undefined;
+// Match the final clean-route directories while retaining legacy .html URLs.
+let canonicalPath = Astro.url.pathname;
+if (canonicalPath.endsWith("/index.html")) {
+  canonicalPath = canonicalPath.slice(0, -"index.html".length);
+} else if (canonicalPath.endsWith(".html")) {
+  const preservedFile = /^(?:\/en)?\/(?:article|page|download)\//.test(canonicalPath)
+    || /^\/(?:404|500)\.html$/.test(canonicalPath);
+  if (!preservedFile) canonicalPath = canonicalPath.replace(/\.html$/, "/");
+} else if (!canonicalPath.endsWith("/")) {
+  canonicalPath += "/";
+}
+const canonical = siteConfig.siteUrl ? new URL(canonicalPath, siteConfig.siteUrl).toString() : undefined;
 const socialImage = image && siteConfig.siteUrl ? new URL(image, siteConfig.siteUrl).toString() : undefined;
 ---
 

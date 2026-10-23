@@ -1,9 +1,15 @@
 export const siteConfig = {
   language: "zh-CN",
   locale: "zh_CN",
-  siteUrl: undefined as string | undefined,
-  siteMode: "local" as "local" | "production",
+  siteUrl: "https://gsin.fuliang.online/" as string | undefined,
+  siteMode: "production" as "local" | "production",
   contentStatus: "ready" as "demo" | "draft" | "ready",
+  inquiry: {
+    // Public build-time URL. Cloudflare builds have no local .env, so production
+    // uses the deployed Worker unless PUBLIC_INQUIRY_ENDPOINT overrides it.
+    endpoint: import.meta.env.PUBLIC_INQUIRY_ENDPOINT?.trim()
+      || "https://website-inquiry.fanfu749.workers.dev/inquiry",
+  },
   navigation: [
     { label: "首页", href: "/" },
     { label: "关于金鑫", href: "/about/" },

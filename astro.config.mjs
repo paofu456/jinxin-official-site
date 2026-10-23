@@ -1,6 +1,8 @@
 import { defineConfig } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 import { mkdir, rename } from "node:fs/promises";
+import { siteConfig } from "./site.config.ts";
+import { generateSitemap } from "./scripts/generate-sitemap.mjs";
 
 // Archive pages retain their .html filenames; existing clean URLs retain directories.
 const cleanRoutes = {
@@ -14,11 +16,13 @@ const cleanRoutes = {
         await mkdir(folder, { recursive: true });
         await rename(new URL(`${route}.html`, dir), new URL("index.html", folder));
       }
+      await generateSitemap(dir, siteConfig);
     },
   },
 };
 
 export default defineConfig({
+  site: siteConfig.siteUrl,
   output: "static",
   build: { format: "file" },
   devToolbar: { enabled: false },

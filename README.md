@@ -30,11 +30,11 @@ npm run verify
 - 公司事实与联系方式来自 `src/data/company.json`，不要在页面组件中重复硬编码。
 - 业务方向内容位于 `src/content/products/`，工程案例内容位于 `src/content/projects/`。
 - 公开图片位于 `public/media/`；原始资料与内部记录保留在 `materials/` 与 `notes/`，两者均为私有输入。
-- 网站当前为 `local`（noindex）模式，因为本轮交付为 workers.dev 预览，尚未绑定正式域名。
+- 网站以 `https://gsin.fuliang.online/` 为规范域名，使用 `production` 模式；普通页面允许索引，404 页面保持 noindex。每次构建根据实际可索引页面生成 `/sitemap.xml`，robots.txt 声明站点地图，Google 所有权验证文件永久保留。
 
 ## 未纳入本轮范围
 
-部署到自有域名、DNS、HTTPS、后台管理系统、数据库、在线表单与移动端专项适配。
+部署到自有域名、DNS、HTTPS、后台管理系统、数据库与移动端专项适配。在线询盘的新增接入见下文。
 
 ## 现代版改版（2026-10）
 
@@ -71,4 +71,10 @@ npm run verify
 
 ## 公司栏目细节
 
-公司介绍采用白色与浅灰绿背景；发展历程使用横向折线图，完整保留 21 个事件，支持年份定位、滚轮与键盘浏览。29 项公司荣誉按每页 9 项分页，分类切换回到第一页。联系我们与旧地址共用旧版双栏联系组件；留言通过邮箱客户端发送，不显示未经实际发送的成功提示。
+公司介绍采用白色与浅灰绿背景；发展历程使用横向折线图，完整保留 21 个事件，支持年份定位、滚轮与键盘浏览。29 项公司荣誉按每页 9 项分页，分类切换回到第一页。联系我们与旧地址共用双栏联系组件；表单通过外部邮件服务提交。
+
+## 在线询盘接入（2026-10-19）
+
+共享联系表单通过 HTTP POST 调用独立 Node.js 服务，中英文及历史联系页面一并接入；网站继续静态输出，不增加数据库。发件地址和收件邮箱由询盘服务按本站来源选择，收件人不能由网页指定。邮件不设置 Reply-To，访客邮箱写在正文中。
+
+正式构建的询盘接口是 `https://website-inquiry.fanfu749.workers.dev/inquiry`，写在 `.env.production`。本地 `.env` 可继续指向 `http://127.0.0.1:8787/inquiry`。按用户要求不接入验证码；保留服务端限流、来源匹配、字段校验和隐藏防刷字段。配置步骤见 [docs/inquiry.md](docs/inquiry.md)。发件地址为 `inquiry@fuliang.online`，收件邮箱为 `fufufu202532@163.com`。把本仓库推送到 `main` 并等 Cloudflare 重新构建后，`https://gsin.fuliang.online/contact/` 才会使用这个接口。
