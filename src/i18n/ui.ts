@@ -48,7 +48,7 @@ const zh = {
     searchAria: "打开工程搜索",
     searchPlaceholder: "搜索工程案例",
     searchSubmit: "搜索",
-    switchLabel: "EN",
+    switchLabel: "英",
     switchAria: "Switch to English",
   },
   footer: {
@@ -308,8 +308,8 @@ const en: UiStrings = {
     searchAria: "Open project search",
     searchPlaceholder: "Search projects",
     searchSubmit: "Search",
-    switchLabel: "中",
-    switchAria: "切换到中文",
+    switchLabel: "CN",
+    switchAria: "Switch to Chinese",
   },
   footer: {
     navAria: "Footer navigation",
