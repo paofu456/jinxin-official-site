@@ -10,7 +10,7 @@ const strings=t(lang).contact;
 const page=archive.find(p=>p.path==='/page/lxwm.html')!;
 const mapUrl=page.html.match(/class="contact-addr" href="([^"]+)"/)?.[1].replaceAll('&amp;','&');
 const submenu=lang==='en'?t('en').records.aboutSubnav:page.submenu;
-const messages={sending:strings.formSending,success:strings.formSuccess,error:strings.formError,unknown:strings.formUnknown,unavailable:strings.formUnavailable,rateLimited:strings.formRateLimited};
+const messages={sending:strings.formSending,success:strings.formSuccess,error:strings.formError,unknown:strings.formUnknown,unavailable:strings.formUnavailable,rateLimited:strings.formRateLimited,quotaExceeded:strings.formQuotaExceeded};
 ---
 <ContentHeading title={strings.title} description={company.name} variant="corporate" lang={lang}/>
 <nav class="record-navigation wrap" aria-label={t(lang).records.subnavAria}>{submenu.map(item=><a href={item.href} aria-current={item.label===strings.title?'page':undefined}>{item.label}</a>)}</nav>

@@ -1,6 +1,6 @@
 interface InquiryMessages {
   sending: string; success: string; error: string; unknown: string;
-  unavailable: string; rateLimited: string;
+  unavailable: string; rateLimited: string; quotaExceeded: string;
 }
 
 export function mountInquiryForm(form: HTMLFormElement): void {
@@ -68,6 +68,7 @@ export function mountInquiryForm(form: HTMLFormElement): void {
         report(messages.success, 'success');
       } else {
         const message = result.code === 'send_unknown' ? messages.unknown :
+          result.code === 'send_quota_exceeded' ? messages.quotaExceeded :
           result.code === 'rate_limited' ? messages.rateLimited :
           result.code === 'not_configured' ? messages.unavailable : messages.error;
         report(message, 'error');

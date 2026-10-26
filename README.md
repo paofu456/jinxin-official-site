@@ -77,4 +77,4 @@ npm run verify
 
 共享联系表单通过 HTTP POST 调用独立 Node.js 服务，中英文及历史联系页面一并接入；网站继续静态输出，不增加数据库。发件地址和收件邮箱由询盘服务按本站来源选择，收件人不能由网页指定。邮件不设置 Reply-To，访客邮箱写在正文中。
 
-正式构建的询盘接口是 `https://website-inquiry.fanfu749.workers.dev/inquiry`，写在 `.env.production`。本地 `.env` 可继续指向 `http://127.0.0.1:8787/inquiry`。按用户要求不接入验证码；保留服务端限流、来源匹配、字段校验和隐藏防刷字段。配置步骤见 [docs/inquiry.md](docs/inquiry.md)。发件地址为 `inquiry@fuliang.online`，收件邮箱为 `fufufu202532@163.com`。把本仓库推送到 `main` 并等 Cloudflare 重新构建后，`https://gsin.fuliang.online/contact/` 才会使用这个接口。
+正式构建的询盘接口是 `https://website-inquiry.fanfu749.workers.dev/inquiry`，写在 `.env.production`。本地 `.env` 可继续指向 `http://127.0.0.1:8787/inquiry`。按用户要求不接入验证码；保留服务端限流、来源匹配、字段校验和隐藏防刷字段。配置步骤见 [docs/inquiry.md](docs/inquiry.md)。发件地址为 `inquiry@fuliang.online`，收件邮箱为 `Hi-Strong@VIP.163.com`。把本仓库推送到 `main` 并等 Cloudflare 重新构建后，`https://gsin.fuliang.online/contact/` 才会使用这个接口。
