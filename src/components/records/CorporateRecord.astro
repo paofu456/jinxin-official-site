@@ -39,6 +39,7 @@ const submenu=page.submenu.map(item=>({...item,href:lang==='en'&&/^\/(article|pa
 
 <script is:inline type="application/json" data-doc-strings set:html={JSON.stringify({close:strings.closeDialog,count:strings.documentsCountTemplate,page:strings.documentsPageTemplate,pageAria:strings.pageAriaTemplate})}></script>
 <script>
+import { showImagePreview } from '../../lib/image-preview';
 const dsEl=document.querySelector('[data-doc-strings]');
 const ds=dsEl?JSON.parse(dsEl.textContent||'{}'):{close:'关闭',count:'共 {n} 项',page:' · 第 {page} / {pages} 页 · 本页 {from}–{to} 项',pageAria:'第 {n} 页'};
 const fmt=(tpl:string,vars:Record<string,number>)=>String(tpl||'').replace(/\{(\w+)\}/g,(_,k)=>String(vars[k]??''));
@@ -48,7 +49,7 @@ document.querySelectorAll<HTMLAnchorElement>('.document-card>a').forEach(link=>l
  if(event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;
  event.preventDefault();link.closest('.document-card')?.querySelector<HTMLButtonElement>('.document-zoom')?.click();
 }));
-document.querySelectorAll<HTMLButtonElement>('.document-zoom').forEach(button=>button.addEventListener('click',()=>{const img=button.querySelector('img');if(!img)return;const dialog=document.createElement('dialog');dialog.className='image-dialog';dialog.setAttribute('aria-label',img.alt);const close=document.createElement('button');close.type='button';close.textContent=ds.close;dialog.append(close,img.cloneNode(true));document.body.append(dialog);close.addEventListener('click',()=>dialog.close());dialog.addEventListener('click',e=>{if(e.target===dialog)dialog.close();});dialog.addEventListener('close',()=>{dialog.remove();button.focus();});dialog.showModal();close.focus();}));
+document.querySelectorAll<HTMLButtonElement>('.document-zoom').forEach(button=>button.addEventListener('click',()=>{const img=button.querySelector('img');if(img)showImagePreview(img,{closeLabel:ds.close,returnFocus:button});}));
 const library=document.querySelector<HTMLElement>('[data-document-page-size]');
 if(library){
  const filters=[...library.querySelectorAll<HTMLButtonElement>('[data-document-filter]')];

@@ -1,0 +1,14 @@
+{
+  "/media/aebc7e21feb26b8d.jpg": {
+    "small": "/media/news-thumbnails/aebc7e21feb26b8d-480.webp",
+    "large": "/media/news-thumbnails/aebc7e21feb26b8d-960.webp"
+  },
+  "/media/b49d808b33ce1620.jpg": {
+    "small": "/media/news-thumbnails/b49d808b33ce1620-480.webp",
+    "large": "/media/news-thumbnails/b49d808b33ce1620-960.webp"
+  },
+  "/media/4f0c92473b179db1.png": {
+    "small": "/media/news-thumbnails/4f0c92473b179db1-480.webp",
+    "large": "/media/news-thumbnails/4f0c92473b179db1-960.webp"
+  }
+}

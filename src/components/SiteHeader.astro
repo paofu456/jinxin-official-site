@@ -37,7 +37,22 @@ const switchHref=alternateLocalePath(rawPath,alternate);
 </header>
 {!home&&<div class="gsin-header-space" aria-hidden="true"></div>}
 <script>
+ import { business } from '../data/business';
  const header=document.querySelector<HTMLElement>('[data-site-header]');
+ const languageSwitch=header?.querySelector<HTMLAnchorElement>('.gsin-lang-switch');
+ const alternatePath=languageSwitch?.getAttribute('href');
+ function syncLanguageSwitch(){
+  if(!languageSwitch||!alternatePath)return;
+  const target=new URL(alternatePath,window.location.origin);
+  target.search=window.location.search;
+  const category=target.searchParams.get('category');
+  const item=business.find(item=>item.category===category||item.en.category===category);
+  if(item)target.searchParams.set('category',target.pathname.startsWith('/en/')?item.en.category:item.category);
+  languageSwitch.href=target.pathname+target.search+window.location.hash;
+ }
+ syncLanguageSwitch();
+ document.addEventListener('catalog-state-change',syncLanguageSwitch);
+ window.addEventListener('popstate',syncLanguageSwitch);
  const menu=header?.querySelector<HTMLButtonElement>('.gsin-menu-button');
  const search=header?.querySelector<HTMLButtonElement>('.gsin-search-toggle');
  const form=header?.querySelector<HTMLFormElement>('.gsin-search-form');

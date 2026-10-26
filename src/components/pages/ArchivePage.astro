@@ -42,10 +42,11 @@ const contentHtml=localizeArchiveHtml(record.html,lang);
 </>}
 <script is:inline type="application/json" data-archive-strings set:html={JSON.stringify({close:strings.closeDialog,closeAria:strings.closeDialogAria,zoomPrefix:strings.zoomAriaPrefix})}></script>
 <script>
+import { showImagePreview } from '../../lib/image-preview';
 const asEl=document.querySelector('[data-archive-strings]');
 const archiveStrings=asEl?JSON.parse(asEl.textContent||'{}'):{close:'关闭 ×',closeAria:'关闭图片预览',zoomPrefix:'放大查看'};
  const article=document.querySelector('.archive-content:not(.project)');
- function showImage(img:HTMLImageElement){const dialog=document.createElement('dialog');dialog.className='image-dialog';const close=document.createElement('button');close.textContent=archiveStrings.close;close.setAttribute('aria-label',archiveStrings.closeAria);dialog.append(close,img.cloneNode(true));document.body.append(dialog);close.addEventListener('click',()=>dialog.close());dialog.addEventListener('click',e=>{if(e.target===dialog)dialog.close();});dialog.addEventListener('close',()=>dialog.remove());dialog.showModal();close.focus();}
+ function showImage(img:HTMLImageElement){showImagePreview(img,{closeLabel:archiveStrings.close,returnFocus:img.closest<HTMLElement>('button,a')??undefined});}
  article?.querySelectorAll('img').forEach(img=>{const link=img.closest('a');if(link){if(link.classList.contains('lightbox'))link.addEventListener('click',e=>{e.preventDefault();showImage(img);});return;}const button=document.createElement('button');button.type='button';button.className='image-zoom';button.setAttribute('aria-label',archiveStrings.zoomPrefix+img.alt);img.replaceWith(button);button.append(img);button.addEventListener('click',()=>showImage(img));});
 </script>
 </Layout>

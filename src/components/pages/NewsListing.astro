@@ -3,6 +3,7 @@ import type {Page} from 'astro';
 import Layout from '../../layouts/Layout.astro';
 import ContentHeading from '../ContentHeading.astro';
 import newsZh from '../../data/news-catalog.json';
+import thumbnailData from '../../data/news-thumbnails.json';
 import { t, type Locale } from '../../i18n/ui';
 import { getCompany } from '../../i18n/ui';
 type NewsRecordItem=typeof newsZh[number];
@@ -12,6 +13,7 @@ const strings=t(lang).news;
 const company=getCompany(lang);
 // Pagination supplies the catalogue in the requested language.
 const items=page.data;
+const thumbnails:Record<string,{small:string;large:string}>=thumbnailData;
 const newsHref=(n:NewsRecordItem)=>lang==='en'?'/en'+n.path:n.path;
 const featured=page.currentPage===1?items.slice(0,3):[];
 const listed=page.currentPage===1?items.slice(3):items;
@@ -21,7 +23,7 @@ const title=`${strings.headingTitle}${page.currentPage>1?strings.pageTitleSuffix
 <Layout title={title} description={strings.listDescription} showInquiry={false} lang={lang}>
 <ContentHeading title={strings.headingTitle} description={strings.headingDescription} variant="news" lang={lang}/>
 <section class="wrap newsroom">
- {featured.length>0&&<section aria-labelledby="featured-news-title"><div class="news-section-heading"><h2 id="featured-news-title">{strings.featuredHeading}</h2><span>{strings.featuredEyebrow}</span></div><div class="news-highlights">{featured.map(n=><a class="news-highlight" href={newsHref(n)}><div class="news-highlight-image"><img src={n.image} alt={n.title} loading="lazy"/></div><div class="news-highlight-copy"><time datetime={n.date}>{n.date}</time><h3>{n.title}</h3><p>{n.summary}</p><span>{strings.readMore}</span></div></a>)}</div></section>}
+ {featured.length>0&&<section aria-labelledby="featured-news-title"><div class="news-section-heading"><h2 id="featured-news-title">{strings.featuredHeading}</h2><span>{strings.featuredEyebrow}</span></div><div class="news-highlights">{featured.map(n=><a class="news-highlight" href={newsHref(n)}><div class="news-highlight-image"><img src={thumbnails[n.image]?.small||n.image} srcset={thumbnails[n.image]?`${thumbnails[n.image].small} 480w, ${thumbnails[n.image].large} 960w`:undefined} sizes="(max-width:800px) calc(100vw - 40px), (max-width:1440px) calc((100vw - 104px)/3), 445px" alt={n.title} width="960" height="600" loading="lazy"/></div><div class="news-highlight-copy"><time datetime={n.date}>{n.date}</time><h3>{n.title}</h3><p>{n.summary}</p><span>{strings.readMore}</span></div></a>)}</div></section>}
  <section aria-labelledby="all-news-title" class="news-text-section"><div class="news-section-heading"><h2 id="all-news-title">{page.currentPage===1?strings.moreHeading:strings.allHeading}</h2><span>{strings.totalInfo(page.total,page.currentPage,page.lastPage)}</span></div><div class="news-text-list">{listed.map(n=><a href={newsHref(n)}><div><h3>{n.title}</h3><time datetime={n.date}>{strings.datePrefix}{n.date}</time>{n.summary&&<p>{n.summary}</p>}</div><span class="news-read-link">{strings.readMore}</span></a>)}</div></section>
  <nav class="news-pagination" aria-label={strings.paginationAria}>{page.url.prev&&<a href={page.url.prev}>{strings.prevPage}</a>}{Array.from({length:page.lastPage},(_,i)=>i+1).map(i=>i===page.currentPage?<span aria-current="page">{i}</span>:<a href={pageHref(i)} aria-label={strings.pageAria(i)}>{i}</a>)}{page.url.next&&<a href={page.url.next}>{strings.nextPage}</a>}</nav>
 </section>

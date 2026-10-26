@@ -32,16 +32,23 @@ const fmt=(tpl:string,vars:Record<string,number>)=>String(tpl||'').replace(/\{(\
 const tabs=[...document.querySelectorAll<HTMLButtonElement>('[data-category]')];
 const search=document.querySelector<HTMLInputElement>('.catalog-search input');
 const cards=[...document.querySelectorAll<HTMLElement>('#project-results [data-categories]')];
-const params=new URLSearchParams(window.location.search);
-const requested=params.get('category');if(search)search.value=params.get('q')||'';
-let category=tabs.some(t=>t.dataset.category===requested)?requested!:cs.all;
+let category=cs.all;
 let page=1;
+function readLocation(){
+ const params=new URLSearchParams(window.location.search);
+ const requested=params.get('category');
+ category=tabs.some(t=>t.dataset.category===requested)?requested!:cs.all;
+ if(search)search.value=params.get('q')||'';
+ const requestedPage=Number(params.get('page')||1);
+ page=Number.isSafeInteger(requestedPage)&&requestedPage>0?requestedPage:1;
+}
+readLocation();
 const pageSize=12;
 const pagination=document.querySelector<HTMLElement>('.project-pagination');
 const numbers=document.querySelector<HTMLElement>('.project-page-numbers');
 const previous=document.querySelector<HTMLButtonElement>('[data-page-step="-1"]');
 const next=document.querySelector<HTMLButtonElement>('[data-page-step="1"]');
-function update(){
+function update(historyMode:'replace'|'push'='replace'){
  document.querySelectorAll<HTMLElement>('[data-business-category]').forEach(panel=>panel.hidden=panel.dataset.businessCategory!==category);
  const term=(search?.value||'').trim().toLowerCase();
  const matches=cards.filter(card=>(category===cs.all||card.dataset.categories?.split('|').includes(category))&&(card.dataset.search||'').toLowerCase().includes(term));
@@ -61,11 +68,21 @@ function update(){
   if(n===page)button.setAttribute('aria-current','page');
   numbers?.append(button);
  }
+ tabs.forEach(tab=>tab.setAttribute('aria-pressed',String(tab.dataset.category===category)));
+ const url=new URL(window.location.href);
+ if(category===cs.all)url.searchParams.delete('category');else url.searchParams.set('category',category);
+ if(search?.value.trim())url.searchParams.set('q',search.value.trim());else url.searchParams.delete('q');
+ if(page===1)url.searchParams.delete('page');else url.searchParams.set('page',String(page));
+ if(url.href!==window.location.href){
+  if(historyMode==='push')history.pushState(null,'',url);else history.replaceState(null,'',url);
+ }
+ document.dispatchEvent(new Event('catalog-state-change'));
 }
-function turnPage(value:number){page=value;update();document.querySelector('.catalog-count')?.scrollIntoView({block:'start'});numbers?.querySelector<HTMLButtonElement>(`[data-page="${page}"]`)?.focus({preventScroll:true});}
+function turnPage(value:number){page=value;update('push');document.querySelector('.catalog-count')?.scrollIntoView({block:'start'});numbers?.querySelector<HTMLButtonElement>(`[data-page="${page}"]`)?.focus({preventScroll:true});}
 numbers?.addEventListener('click',event=>{const target=event.target;if(target instanceof HTMLButtonElement&&target.dataset.page)turnPage(Number(target.dataset.page));});
 previous?.addEventListener('click',()=>turnPage(page-1));next?.addEventListener('click',()=>turnPage(page+1));
-tabs.forEach(tab=>tab.addEventListener('click',()=>{category=tab.dataset.category||cs.all;page=1;tabs.forEach(t=>t.setAttribute('aria-pressed',String(t===tab)));update();}));
+tabs.forEach(tab=>tab.addEventListener('click',()=>{category=tab.dataset.category||cs.all;page=1;update('push');}));
 search?.addEventListener('input',()=>{page=1;update();});
-tabs.forEach(t=>t.setAttribute('aria-pressed',String(t.dataset.category===category)));update();
+window.addEventListener('popstate',()=>{readLocation();update();});
+update();
 </script>
