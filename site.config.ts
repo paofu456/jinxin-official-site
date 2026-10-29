@@ -1,7 +1,7 @@
 export const siteConfig = {
   language: "zh-CN",
   locale: "zh_CN",
-  siteUrl: "https://gsin.fuliang.online/" as string | undefined,
+  siteUrl: "https://www.szgsin.com/" as string | undefined,
   siteMode: "production" as "local" | "production",
   contentStatus: "ready" as "demo" | "draft" | "ready",
   inquiry: {

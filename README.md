@@ -30,7 +30,7 @@ npm run verify
 - 公司事实与联系方式来自 `src/data/company.json`，不要在页面组件中重复硬编码。
 - 业务方向内容位于 `src/content/products/`，工程案例内容位于 `src/content/projects/`。
 - 公开图片位于 `public/media/`；原始资料与内部记录保留在 `materials/` 与 `notes/`，两者均为私有输入。
-- 网站以 `https://gsin.fuliang.online/` 为规范域名，使用 `production` 模式；普通页面允许索引，404 页面保持 noindex。每次构建根据实际可索引页面生成 `/sitemap.xml`，robots.txt 声明站点地图，Google 所有权验证文件永久保留。
+- 网站源码以 `https://www.szgsin.com/` 为规范域名，使用 `production` 模式；普通页面允许索引，404 页面保持 noindex。每次构建根据实际可索引页面生成 `/sitemap.xml`，robots.txt 声明站点地图，Google 所有权验证文件永久保留。此次域名迁移仍需发布及核对 DNS、HTTPS、旧域名跳转与新域名的 GSC 验证。
 
 ## 未纳入本轮范围
 
@@ -77,4 +77,4 @@ npm run verify
 
 共享联系表单通过 HTTP POST 调用独立 Node.js 服务，中英文及历史联系页面一并接入；网站继续静态输出，不增加数据库。发件地址和收件邮箱由询盘服务按本站来源选择，收件人不能由网页指定。邮件不设置 Reply-To，访客邮箱写在正文中。
 
-正式构建的询盘接口是 `https://website-inquiry.fanfu749.workers.dev/inquiry`，写在 `.env.production`。本地 `.env` 可继续指向 `http://127.0.0.1:8787/inquiry`。按用户要求不接入验证码；保留服务端限流、来源匹配、字段校验和隐藏防刷字段。配置步骤见 [docs/inquiry.md](docs/inquiry.md)。发件地址为 `inquiry@fuliang.online`，收件邮箱为 `Hi-Strong@VIP.163.com`。把本仓库推送到 `main` 并等 Cloudflare 重新构建后，`https://gsin.fuliang.online/contact/` 才会使用这个接口。
+正式构建的询盘接口是 `https://website-inquiry.fanfu749.workers.dev/inquiry`，写在 `.env.production`。本地 `.env` 可继续指向 `http://127.0.0.1:8787/inquiry`。按用户要求不接入验证码；保留服务端限流、来源匹配、字段校验和隐藏防刷字段。配置步骤见 [docs/inquiry.md](docs/inquiry.md)。邮件服务本地源码位于 `C:/Users/PC/Desktop/new-gsin/website-inquiry`，已将发件地址改为 `inquiry@szgsin.com`，收件邮箱保留 `Hi-Strong@VIP.163.com`，并已添加 `https://www.szgsin.com` 来源；远端服务尚未部署此次修改。

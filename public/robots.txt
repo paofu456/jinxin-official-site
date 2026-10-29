@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://gsin.fuliang.online/sitemap.xml
+Sitemap: https://www.szgsin.com/sitemap.xml
