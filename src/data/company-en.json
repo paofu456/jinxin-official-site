@@ -5,5 +5,23 @@
   "description": "Founded in 1998 and based in Longgang District, Shenzhen, GSIN builds and constructs super high-rise steel structures, large-span space steel structures and prefabricated steel structure buildings. It has developed a business system featuring professional design, factory-based manufacturing and standardized installation, and on this basis has grown into urban operation building products and steel-structure villa residence products.",
   "founded": "1998",
   "location": "Shenzhen, Guangdong",
+  "profileHighlights": [
+    {
+      "label": "Founded",
+      "value": "1998"
+    },
+    {
+      "label": "Based in",
+      "value": "Longgang District, Shenzhen"
+    },
+    {
+      "label": "Core qualifications",
+      "value": "Grade I professional contracting for steel-structure engineering; Grade II general contracting for construction engineering"
+    },
+    {
+      "label": "Recognition",
+      "value": "National High-Tech Enterprise; National Prefabricated Construction Industrial Base"
+    }
+  ],
   "address": "No. 9 Xinfeng 2nd Road, Nianfeng Community, Pingdi Street, Longgang District, Shenzhen"
 }

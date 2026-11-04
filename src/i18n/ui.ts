@@ -181,6 +181,11 @@ const zh = {
   about: {
     headingTitle: "关于金鑫",
     headingDescription: "以钢结构，构筑绿色未来",
+    snapshotEyebrow: "公司一览",
+    snapshotHeading: "公司概况、资质与行业认可",
+    snapshotAria: "公司关键信息",
+    snapshotCertifications: "查看资质证书",
+    snapshotProjects: "查看业务与案例",
     profileEyebrow: "公司介绍",
     profileHeadingLines: ["深耕钢结构建筑", "始于 1998"],
     valuesAria: "建造理念",
@@ -443,6 +448,11 @@ const en: UiStrings = {
   about: {
     headingTitle: "About GSIN",
     headingDescription: "Building a green future with steel structures",
+    snapshotEyebrow: "GSIN at a glance",
+    snapshotHeading: "Company facts, qualifications and recognition",
+    snapshotAria: "Key company information",
+    snapshotCertifications: "View certifications",
+    snapshotProjects: "Explore projects",
     profileEyebrow: "Company Profile",
     profileHeadingLines: ["Dedicated to steel buildings", "since 1998"],
     valuesAria: "Construction philosophy",
