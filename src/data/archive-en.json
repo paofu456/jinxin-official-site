@@ -109,10 +109,10 @@
   },
   {
     "path": "/article/zzzs.html",
-    "title": "Certifications",
+    "title": "Qualifications & Certifications",
     "kind": "listing",
     "source": "en",
-    "text": "GSIN qualifications and certification documents.",
+    "text": "GSIN holds Grade I professional contracting for steel-structure engineering and Grade II general contracting for construction engineering. The archive also includes the company's business licence, high-tech enterprise and work-safety documents.",
     "submenu": [
       {
         "label": "Company Profile",
@@ -817,7 +817,7 @@
   },
   {
     "path": "/article/zzzs/p2.html",
-    "title": "Qualifications and Certificates",
+    "title": "Qualifications & Certifications",
     "submenu": [
       {
         "label": "Company Profile",
@@ -841,7 +841,7 @@
       }
     ],
     "html": "<div class=\"section sec-honor\">\n<div class=\"container\">\n<div class=\"clearfix honor-list\">\n<div class=\"honor-itme\">\n<a class=\"lightbox\" data-title=\"安全生产标准化证书\" href=\"/media/a746023a858d6de8.png\" rel=\"honor\">\n<div class=\"m-pic\">\n<img alt=\"Work Safety Standardization Certificate\" loading=\"lazy\" src=\"/media/a746023a858d6de8.png\"/>\n</div>\n<div class=\"m-tit\">Work Safety Standardization Certificate</div>\n</a>\n</div>\n</div>\n<div class=\"pagination\">\n<a class=\"page-prev\" href=\"/article/zzzs/p1.html\" title=\"&lt;i class='iconfont icon-prev'&gt;&lt;/i&gt;\">Read more</a><a class=\"\" href=\"/article/zzzs/p1.html\">1</a><a class=\"on\">2</a>\n</div>\n</div>\n</div>",
-    "text": "Work Safety Standardization Certificate Read more 1 2",
+    "text": "Page 2 of GSIN's certification archive: Work Safety Standardization Certificate, with the original Chinese scan.",
     "kind": "listing",
     "source": "en"
   },
@@ -1261,7 +1261,7 @@
   },
   {
     "path": "/article/zzzs/p1.html",
-    "title": "Qualifications and Certificates",
+    "title": "Qualifications & Certifications",
     "submenu": [
       {
         "label": "Company Profile",
@@ -1285,7 +1285,7 @@
       }
     ],
     "html": "<div class=\"section sec-honor\">\n<div class=\"container\">\n<div class=\"clearfix honor-list\">\n<div class=\"honor-itme\">\n<a class=\"lightbox\" data-title=\"营业执照\" href=\"/media/9c5ccf3ade93da45.png\" rel=\"honor\">\n<div class=\"m-pic\">\n<img alt=\"Business License\" loading=\"lazy\" src=\"/media/9c5ccf3ade93da45.png\"/>\n</div>\n<div class=\"m-tit\">Business License</div>\n</a>\n</div>\n<div class=\"honor-itme\">\n<a class=\"lightbox\" data-title=\"建筑工程施工总承包贰级\" href=\"/media/65b704546a0cc6bc.jpg\" rel=\"honor\">\n<div class=\"m-pic\">\n<img alt=\"Grade II General Contracting for Construction Engineering\" loading=\"lazy\" src=\"/media/65b704546a0cc6bc.jpg\"/>\n</div>\n<div class=\"m-tit\">Grade II General Contracting for Construction Engineering</div>\n</a>\n</div>\n<div class=\"honor-itme\">\n<a class=\"lightbox\" data-title=\"建筑工程施工总承包叁级\" href=\"/media/4f5f57a59a9d6d64.png\" rel=\"honor\">\n<div class=\"m-pic\">\n<img alt=\"Grade III General Contracting for Construction Engineering\" loading=\"lazy\" src=\"/media/4f5f57a59a9d6d64.png\"/>\n</div>\n<div class=\"m-tit\">Grade III General Contracting for Construction Engineering</div>\n</a>\n</div>\n<div class=\"honor-itme\">\n<a class=\"lightbox\" data-title=\"钢结构专业承包壹级资质\" href=\"/media/8afae1efb3b5d2a8.png\" rel=\"honor\">\n<div class=\"m-pic\">\n<img alt=\"Grade I Professional Contracting for Steel Structure Engineering\" loading=\"lazy\" src=\"/media/8afae1efb3b5d2a8.png\"/>\n</div>\n<div class=\"m-tit\">Grade I Professional Contracting for Steel Structure Engineering</div>\n</a>\n</div>\n<div class=\"honor-itme\">\n<a class=\"lightbox\" data-title=\"高新技术企业证书\" href=\"/media/a82965fc5866cd53.png\" rel=\"honor\">\n<div class=\"m-pic\">\n<img alt=\"High-Tech Enterprise Certificate\" loading=\"lazy\" src=\"/media/a82965fc5866cd53.png\"/>\n</div>\n<div class=\"m-tit\">High-Tech Enterprise Certificate</div>\n</a>\n</div>\n<div class=\"honor-itme\">\n<a class=\"lightbox\" data-title=\"安全生产许可证\" href=\"/media/fa5781c58b713aad.png\" rel=\"honor\">\n<div class=\"m-pic\">\n<img alt=\"Work Safety License\" loading=\"lazy\" src=\"/media/fa5781c58b713aad.png\"/>\n</div>\n<div class=\"m-tit\">Work Safety License</div>\n</a>\n</div>\n</div>\n<div class=\"pagination\">\n<a class=\"on\">1</a><a class=\"\" href=\"/article/zzzs/p2.html\">2</a><a class=\"page-next\" href=\"/article/zzzs/p2.html\" title=\"&lt;i class='iconfont icon-next'&gt;&lt;/i&gt;\">Next</a>\n</div>\n</div>\n</div>",
-    "text": "Business License Grade II General Contracting for Construction Engineering Grade III General Contracting for Construction Engineering Grade I Professional Contracting for Steel Structure Engineering High-Tech Enterprise Certificate Work Safety License 1 2 Next",
+    "text": "Page 1 of GSIN's certification archive: business licence, construction qualifications, high-tech enterprise and work-safety documents.",
     "kind": "listing",
     "source": "en"
   },

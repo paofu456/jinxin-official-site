@@ -23,11 +23,18 @@ const corporate=['/page/gsjs.html','/page/fzlc.html','/page/zpsgjgqbjztx.html'].
 const isContact=page.path==='/page/lxwm.html';
 const category=page.kind==='project'?strings.projectCategory:page.kind==='news'?strings.newsCategory:page.path.includes('jszl')||page.path.includes('zpsgjgqbjztx')?strings.techCategory:page.submenu.some(p=>p.label==='公司介绍'||p.label==='Company Profile')?strings.aboutCategory:record.title;
 const alternate=lang==='en'?page.path:toLocalePath('en',page.path);
-const description=(record.text||'').trim().slice(0,150)||`${record.title} — ${company.description}`;
+const certificateSeo=lang==='en'?({
+  '/article/zzzs.html':{title:'Steel Structure Qualifications & Certifications | GSIN',description:'GSIN holds Grade I steel-structure and Grade II construction qualifications. View its business licence, high-tech enterprise and work-safety certificates.'},
+  '/article/zzzs/p1.html':{title:'Qualifications & Certifications — Page 1 | GSIN',description:"Page 1 of GSIN's certification archive: business licence, construction qualifications, high-tech enterprise and work-safety documents."},
+  '/article/zzzs/p2.html':{title:'Qualifications & Certifications — Page 2 | GSIN',description:"Page 2 of GSIN's certification archive: Work Safety Standardization Certificate, with the original Chinese scan."}
+} as Record<string,{title:string;description:string}>):undefined;
+const certificateMeta=certificateSeo?.[page.path];
+const description=certificateMeta?.description??((record.text||'').trim().slice(0,150)||`${record.title} — ${company.description}`);
 const submenu=lang==='en'?record.submenu.map(item=>({...item,href:/^\/(article|page|download)\//.test(item.href)?'/en'+item.href:item.href})):record.submenu;
 const contentHtml=localizeArchiveHtml(record.html,lang);
+const noindex=lang==='en'&&page.path==='/article/zzzs/p1.html';
 ---
-<Layout title={record.title} description={description} showInquiry={false} lang={lang} alternate={alternate}>
+<Layout title={certificateMeta?.title??record.title} description={description} noindex={noindex} showInquiry={false} lang={lang} alternate={alternate}>
 {untranslated&&<div class="wrap" style="padding-top:24px"><aside class="record-note" lang="en">{strings.zhOnlyNote}</aside></div>}
 {isContact?<CompanyContact lang={lang}/>:project?<ProjectDetail project={project} lang={lang}/>:corporate?<CorporateRecord page={record} lang={lang}/>:page.kind==='news'?<NewsRecord page={record} lang={lang}/>:<>
 <section class={'page-heading '+(page.kind==='project'?'project-heading':'')}><div class="wrap"><div class="breadcrumbs"><a href={toLocalePath(lang,'/')}>{strings.breadcrumbHome}</a><span>/</span><span>{category}</span></div><h1>{record.title}</h1><p>{page.kind==='project'?strings.projectHeadingText:page.kind==='news'?strings.newsHeadingText:strings.defaultHeadingText}</p></div></section>
