@@ -50,3 +50,9 @@ html:has(.image-dialog[open]){overflow:hidden}
   .certificate-overview-table td+td{margin-top:4px}
   .certificate-overview-table td:before{content:attr(data-label) ": ";color:var(--ink);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
 }
+
+.project-information .project-business-link{display:block;margin-top:16px}
+.business-detail-body .prose-site ul,.business-detail-body .prose-site ol{margin:0 0 1.25rem;padding-left:1.35rem}
+.business-detail-body .prose-site ul{list-style:disc}.business-detail-body .prose-site ol{list-style:decimal}
+.business-detail-body .prose-site li{margin:0 0 .55rem;padding-left:.2rem}
+.business-detail-body .prose-site strong{color:var(--ink);font-weight:600}

@@ -8,9 +8,10 @@ interface Props {
   image?: string;
   noindex?: boolean;
   lang?: Locale;
+  structuredData?: string;
 }
 
-const { title, description, image, noindex = false, lang = "zh" } = Astro.props;
+const { title, description, image, noindex = false, lang = "zh", structuredData } = Astro.props;
 const shouldIndex = siteConfig.siteMode === "production" && !noindex;
 // Match the final clean-route directories while retaining legacy .html URLs.
 let canonicalPath = Astro.url.pathname;
@@ -38,3 +39,4 @@ const socialImage = image && siteConfig.siteUrl ? new URL(image, siteConfig.site
 {canonical && <meta property="og:url" content={canonical} />}
 {socialImage && <meta property="og:image" content={socialImage} />}
 <meta name="twitter:card" content={socialImage ? "summary_large_image" : "summary"} />
+{structuredData && <script is:inline type="application/ld+json" set:html={structuredData} />}

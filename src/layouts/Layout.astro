@@ -6,15 +6,15 @@ import SeoHead from '../components/SeoHead.astro';
 import { getCompany, localeMeta, t, toLocalePath, type Locale } from '../i18n/ui';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
-interface Props { title: string; description?: string; image?: string; noindex?: boolean; showInquiry?: boolean; lang?: Locale; alternate?: string; }
-const { title, description, image, noindex, showInquiry=true, lang='zh', alternate }=Astro.props;
+interface Props { title: string; description?: string; image?: string; noindex?: boolean; showInquiry?: boolean; lang?: Locale; alternate?: string; structuredData?: string; }
+const { title, description, image, noindex, showInquiry=true, lang='zh', alternate, structuredData }=Astro.props;
 const company=getCompany(lang);
 const strings=t(lang);
 const meta=localeMeta[lang];
 ---
 <!doctype html>
 <html lang={meta.htmlLang}>
-<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><SeoHead title={title} description={description??company.description} image={image} noindex={noindex} lang={lang}/></head>
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><SeoHead title={title} description={description??company.description} image={image} noindex={noindex} lang={lang} structuredData={structuredData}/></head>
 <body>
 <a href="#main-content" class="skip">{strings.skip}</a>
 <SiteHeader lang={lang} alternate={alternate}/>
