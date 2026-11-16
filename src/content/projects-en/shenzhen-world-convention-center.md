@@ -21,14 +21,24 @@ specifications:
   - label: Steel tonnage
     value: About 260,000 tons
 seo:
-  title: Shenzhen World Exhibition & Convention Center | GSIN
-  description: "Shenzhen World Exhibition & Convention Center in Bao'an Airport New City: a large exhibition complex with a steel structure span of 99 m."
+  title: "Shenzhen World Exhibition & Convention Center Steel Structure | GSIN"
+  description: "Project case: Shenzhen World Exhibition & Convention Center in Bao'an, with a 99 m steel structure span and about 260,000 t of steel. View GSIN's project profile."
 ---
 
 Shenzhen World Exhibition & Convention Center is located in Bao'an Airport New City, Shenzhen, a large exhibition complex integrating exhibition, conference, business, office and other functions.
 
 ## Structural overview
 
-The project's steel structure spans 99 m, a typical application of large-span space steel structures in exhibition buildings.
+The steel structure spans 99 m, placing the project in the large-span space steel structure category used for exhibition halls and other public buildings. The overall project has a floor area of about 620,000 m² and a steel tonnage of about 260,000 t. These figures describe the complete development; GSIN's specific scope of work is subject to the contract.
+
+## Steel structure considerations
+
+A large exhibition building brings long-span roof framing, connection design, fabrication tolerances, lifting sequence and coordination with the building envelope into one construction programme. The 99 m span is the key structural figure recorded for this case and shows the scale at which large-span steel systems are used in exhibition architecture.
+
+The project sits within GSIN's large-span space steel structure business line, alongside sports venues, transport buildings and other public projects.
+
+## Related capability
+
+Learn more about [large-span space steel structures](/en/products/long-span-space-steel-building/), or [contact GSIN](/en/contact/) with the building use, location, approximate span, roof form and target programme for a comparable project.
 
 Project parameters are overall project data; our specific scope of work is subject to the contract.
