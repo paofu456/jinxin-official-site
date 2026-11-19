@@ -1,0 +1,24 @@
+---
+import { siteConfig } from "../../site.config";
+
+const measurementId = siteConfig.googleAnalyticsMeasurementId;
+const productionHostname = siteConfig.siteUrl ? new URL(siteConfig.siteUrl).hostname : "";
+const enabled = import.meta.env.PROD && siteConfig.siteMode === "production" && productionHostname;
+---
+
+{enabled && (
+  <script is:inline define:vars={{ measurementId, productionHostname }}>
+    // Keep local previews and alternate deployment URLs out of production analytics.
+    if (window.location.hostname === productionHostname) {
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { window.dataLayer.push(arguments); };
+      window.gtag("js", new Date());
+      window.gtag("config", measurementId);
+
+      const googleTag = document.createElement("script");
+      googleTag.async = true;
+      googleTag.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(measurementId);
+      document.head.appendChild(googleTag);
+    }
+  </script>
+)}

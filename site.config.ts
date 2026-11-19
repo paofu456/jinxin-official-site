@@ -2,6 +2,7 @@ export const siteConfig = {
   language: "zh-CN",
   locale: "zh_CN",
   siteUrl: "https://www.szgsin.com/" as string | undefined,
+  googleAnalyticsMeasurementId: "G-77Z7BSW1TF",
   siteMode: "production" as "local" | "production",
   contentStatus: "ready" as "demo" | "draft" | "ready",
   inquiry: {
